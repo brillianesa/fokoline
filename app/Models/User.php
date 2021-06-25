@@ -11,9 +11,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    const ROLE_ADMIN = 1;
-    const ROLE_USER = 2;
-
 
     /**
      * The attributes that are mass assignable.
@@ -46,8 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getRole()
+    public function store()
     {
-        return $this->role == self::ROLE_ADMIN ? 'Administrator' : 'User';
+        return $this->hasOne(Store::class);
     }
 }
