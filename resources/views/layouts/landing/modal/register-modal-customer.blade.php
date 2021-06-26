@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="regModalCustomer" tabindex="-1" role="dialog" aria-labelledby="regModalCustomerLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="margin-top:20%; border-radius: 20px;">
+      <div class="modal-content" style="margin-top:20%; border-radius: 20px; background-color: #45A1FF;">
         <div class="modal-body text-light" style="background-color: #45A1FF;border-radius: 20px;">
         <h1 class="text-center mt-4"> {{ Str::upper(config('app.name', 'LARAVEL')) }} </h4>
           <h5 class="text-center mt-4"> Pendaftaran </h5>
@@ -13,7 +13,7 @@
           <!-- Validation Errors -->
           <x-auth-validation-errors class="mb-4" :errors="$errors" />
   
-          <form class="ml-4 mr-4" method="POST" action="{{ route('login') }}">
+          <form class="ml-4 mr-4" method="POST" action="{{ route('register') }}">
               @csrf
               <!-- Name -->
               <div class="form-group">
@@ -41,8 +41,8 @@
 
               <!-- Password -->
               <div class="form-group">
-                    {{-- <label for="confirmpassword"> Confirm Password </label> --}}
-                    <input type="password" placeholder="Password lagi" class="form-control" name="confirmpassword" type="confirmpassword" required>
+                    {{-- <label for="password_confirmation"> Confirm Password </label> --}}
+                    <input type="password" placeholder="Password lagi" class="form-control" name="password_confirmation" required>
               </div>
               <div class="form-group" style="margin-top: 50px">
                 <div class="text-center">
