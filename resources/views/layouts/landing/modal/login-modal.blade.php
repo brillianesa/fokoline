@@ -40,6 +40,9 @@
       </div>
       <div class="modal-footer">
         <div class="signup-section">Belum menjadi mitra? <a href="#a" class="text-info"> Daftar Mitra Sekarang </a>.</div>
+        <button type="button" class="login" data-toggle="modal" data-dismiss="modal" data-target="#regModalCustomer">
+          Daftar
+        </button>
       </div>
     </div>
   </div>

@@ -68,6 +68,7 @@
 
         @include('layouts.landing.footer')
         @include('layouts.landing.modal.login-modal')
+        @include('layouts.landing.modal.register-modal-customer')
 
         <script>
             $(document).ready(function() {
