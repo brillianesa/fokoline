@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/font-awesome.css') }}">
         <link rel="stylesheet" href="{{ asset('landing_page/css/templatemo-lava.css') }}">
         <link rel="stylesheet" href="{{ asset('landing_page/css/owl-carousel.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -69,6 +70,7 @@
         @include('layouts.landing.footer')
         @include('layouts.landing.modal.login-modal')
         @include('layouts.landing.modal.register-modal-customer')
+        @include('layouts.landing.modal.register-modal-store')
 
         <script>
             $(document).ready(function() {
