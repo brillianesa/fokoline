@@ -1,4 +1,24 @@
 <x-app-layout>
+    @push('stylesheet')
+    <style>
+        .custom-map-control-button {
+            background-color: #fff;
+            border: 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+            margin: 10px;
+            padding: 0 0.5em;
+            font: 400 18px Roboto, Arial, sans-serif;
+            overflow: hidden;
+            height: 40px;
+            cursor: pointer;
+        }
+        .custom-map-control-button:hover {
+            background: #ebebeb;
+        }
+    </style>
+    @endpush
+
     <section class="section" id="frequently-question">
         <div class="container">
             <!-- ***** Section Title Start ***** -->
@@ -8,10 +28,10 @@
                         <h2>Cari Tempat Fotokopi Terdekat</h2>
                     </div>
                 </div>
-                <div class="offset-lg-3 col-lg-6">
+                <div class="col-md-12">
                     <div class="section-heading">
                         <select name="" class="form-control" id="">
-                            <option value=""> asddaksdk</option>
+                            <option value=""> asddaksdk </option>
                         </select>
                     </div>
                 </div>
@@ -25,7 +45,7 @@
     </section>
 
     @push('scripts')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTKAqOUCvrFh-iEKzfq0wHLlaso78iTgc&callback=initMap"type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=initMap"type="text/javascript"></script>
     <script>
 
    let map, infoWindow;

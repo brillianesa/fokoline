@@ -16,6 +16,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/font-awesome.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/templatemo-art-factory.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/owl-carousel.css') }}" />
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
 
         @stack('stylesheet')
