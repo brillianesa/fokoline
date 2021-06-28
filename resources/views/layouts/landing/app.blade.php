@@ -16,6 +16,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/font-awesome.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/templatemo-art-factory.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/owl-carousel.css') }}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
 
         @stack('stylesheet')
 
@@ -69,6 +70,8 @@
 
         @include('layouts.landing.footer')
         @include('layouts.landing.modal.login-modal')
+        @include('layouts.landing.modal.register-modal-customer')
+        @include('layouts.landing.modal.register-modal-store')
 
         <script>
             $(document).ready(function() {

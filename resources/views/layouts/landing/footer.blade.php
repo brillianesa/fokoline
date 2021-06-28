@@ -37,7 +37,7 @@
 
 <!-- Global Init -->
 <script src="{{ asset('landing_page/js/custom.js') }}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
 <script>
     const BASE_URL = '{{ url('/') }}';
     const LOADER_IMG = "{{ asset('assets/icon/loader.gif') }}";

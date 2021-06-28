@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('homepage');
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+Route::group(['middleware' => 'verified', 'prefix' => 'admin'],function () {
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+});
 
 
 require __DIR__ . '/auth.php';
