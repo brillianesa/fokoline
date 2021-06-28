@@ -6,18 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="TemplateMo">
-        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Additional CSS Files -->
-        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/font-awesome.css') }}">
-        <link rel="stylesheet" href="{{ asset('landing_page/css/templatemo-lava.css') }}">
-        <link rel="stylesheet" href="{{ asset('landing_page/css/owl-carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/font-awesome.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/templatemo-art-factory.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/owl-carousel.css') }}" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        @stack('stylesheet')
 
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>

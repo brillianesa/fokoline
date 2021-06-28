@@ -1,12 +1,21 @@
+
 <!-- ***** Footer Start ***** -->
-<footer id="contact-us">
+<footer>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="sub-footer">
-                    <p>Copyright &copy; 2020 Lava Landing Page
-                    | Designed by <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
-                </div>
+            <div class="col-lg-7 col-md-12 col-sm-12">
+                <p class="copyright">Copyright &copy; 2020 Art Factory Company
+
+            . Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+            </div>
+            <div class="col-lg-5 col-md-12 col-sm-12">
+                <ul class="social">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                    <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -32,4 +41,17 @@
 <script>
     const BASE_URL = '{{ url('/') }}';
     const LOADER_IMG = "{{ asset('assets/icon/loader.gif') }}";
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        localStorage.setItem('latitude', position.coords.latitude);
+        localStorage.setItem('longitude', position.coords.longitude);
+    }
 </script>

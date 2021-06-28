@@ -1,5 +1,5 @@
 <!-- ***** Header Area Start ***** -->
-<header class="header-area header-sticky">
+<header class="header-area header-sticky background-header">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -12,8 +12,8 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li class="scroll-to-section"><a href="#welcome" class="menu-item">Home</a></li>
-                        <li class="scroll-to-section"><a href="#welcome" class="menu-item">About</a></li>
-                        <li class="scroll-to-section"><a href="#welcome" class="menu-item">List Mitra</a></li>
+                        <li class="scroll-to-section"><a href="#s" class="menu-item">About</a></li>
+                        <li class="scroll-to-section"><a href="#s" class="menu-item">List Mitra</a></li>
                         {{-- <li class="submenu">
                             <a href="javascript:;">Drop Down</a>
                             <ul>
