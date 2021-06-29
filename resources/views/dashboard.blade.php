@@ -49,11 +49,20 @@
     <script>
 
    let map, infoWindow;
+   var activeInfoWindow;
    var icon = "{!! asset('icons/marker.svg') !!}";
     function initMap() {
+        // curloc = new google.maps.LatLng(-6.373643041124395, 106.784204331353);
+        navigator.geolocation.getCurrentPosition((position) => {
+                curloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                infoWindow.setPosition(curloc);
+                infoWindow.setContent("Posisi Saat Ini");
+                infoWindow.open(map);
+                map.setCenter(curloc);
+               }, handleLocationError);
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: -6.371221577144296, lng: 106.76703995812765 },
-            zoom: 17,
+            center: { lat: -6.373643041124395, lng: 106.784204331353 },
+            zoom: 15,
             mapTypeControl: false,
         });
         infoWindow = new google.maps.InfoWindow();
@@ -65,40 +74,71 @@
 
         $vendors = {!! json_encode($vendors->toArray()) !!};
         $vendors.forEach(e => {
-            new google.maps.Marker({
-                position: new google.maps.LatLng(e.latitude, e.longitude),
+            pos = new google.maps.LatLng(e.latitude, e.longitude);
+            marks(pos, e.name);
+        });
+        function marks(location, name) {
+            var info = new google.maps.InfoWindow();
+            var marker = new google.maps.Marker({
+                position: location,
                 map,
                 icon: icon,
-                title : e.name
+                title : name
             });
-        });
 
-        locationButton.addEventListener("click", () => {
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                const pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                };
-                infoWindow.setPosition(pos);
-                infoWindow.setContent("Posisi Saat Ini");
-                infoWindow.open(map);
-                map.setCenter(pos);
-                },
-                () => {
-                handleLocationError(true, infoWindow, map.getCenter());
-                }
-            );
-            } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-            }
-        });
+            marker.addListener("click", () => {
+                info.setPosition(location);
+                info.setContent(String(CalcDist(curloc, location).toFixed(2))+" KM");
+                if(activeInfoWindow != null) activeInfoWindow.close();
+                info.open({
+                    anchor: marker,
+                    map
+                });
+                map.setZoom(15);
+                map.panTo(marker.getPosition());
+                activeInfoWindow = info;
+            });
+        }
+
+
+        //Distance
+        function CalcDist(mk1, mk2) {
+            R = 3958.8; // Radius of the Earth in miles
+            rlat1 = mk1.lat() * (Math.PI/180); // Convert degrees to radians
+            rlat2 = mk2.lat() * (Math.PI/180); // Convert degrees to radians
+            difflat = rlat2-rlat1; // Radian difference (latitudes)
+            difflon = (mk2.lng()-mk1.lng()) * (Math.PI/180); // Radian difference (longitudes)
+
+            d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+            d = d / 1.609;
+            return d;
+        }
+
+        // locationButton.addEventListener("click", () => {
+        //     // Try HTML5 geolocation.
+        //     if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition(
+        //         (position) => {
+        //         const pos = {
+        //             lat: position.coords.latitude,
+        //             lng: position.coords.longitude,
+        //         };
+        //         infoWindow.setPosition(pos);
+        //         infoWindow.setContent("Posisi Saat Ini");
+        //         infoWindow.open(map);
+        //         map.setCenter(pos);
+        //         },
+        //         () => {
+        //         handleLocationError(true, infoWindow, map.getCenter());
+        //         },{timeout: 6000}
+        //     );
+        //     } else {
+        //     // Browser doesn't support Geolocation
+        //     handleLocationError(false, infoWindow, map.getCenter());
+        //     }
+        // });
 
         google.maps.event.addListener(map, 'click', function(event) {
-            // placeMarkerIputM2(this, event.latLng);
             console.log(event.latLng.toJSON());
         });
     }
