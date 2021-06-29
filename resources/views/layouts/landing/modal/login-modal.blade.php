@@ -39,10 +39,10 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="signup-section">Belum menjadi mitra? <a href="#a" class="text-info" data-toggle="modal" data-dismiss="modal" data-target="#regModalStore"> Daftar Mitra Sekarang </a>.</div>
-        <button type="button" class="login" data-toggle="modal" data-dismiss="modal" data-target="#regModalCustomer">
+        <div class="signup-section">Belum punya akun? <a href="#a" class="text-info" data-toggle="modal" data-dismiss="modal" data-target="#regModalCustomer"> Buat akun </a>.</div>
+        {{-- <button type="button" class="login" data-toggle="modal" data-dismiss="modal" data-target="#regModalCustomer">
           Daftar
-        </button>
+        </button> --}}
       </div>
     </div>
   </div>

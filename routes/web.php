@@ -18,5 +18,6 @@ Route::group(['middleware' => 'verified', 'prefix' => 'admin'],function () {
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
 });
 
+Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
 
 require __DIR__ . '/auth.php';
