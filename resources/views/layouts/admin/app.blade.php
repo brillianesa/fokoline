@@ -17,7 +17,7 @@
         <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
                 page. However, you can choose any other skin. Make sure you
                 apply the skin class to the body tag so the changes take effect. -->
-        <link rel="stylesheet" href="{{ asset('admin_page/css/skins/skin-blue-light.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin_page/css/skins/skin-purple-light.min.css') }}">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,8 +29,10 @@
         <!-- Google Font -->
         <link rel="stylesheet"
                 href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+        @stack('stylesheet')
     </head>
-    <body class="hold-transition skin-blue-light sidebar-mini">
+    <body class="hold-transition skin-purple-light sidebar-mini">
     <div class="wrapper">
 
     @include('layouts.admin.navigation')
@@ -41,6 +43,6 @@
 
     @include('layouts.admin.footer')
 
-    @stack('javascripts')
+    @stack('scripts')
     </body>
 </html>

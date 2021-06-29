@@ -3,7 +3,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="{{ route('admin') }}" class="logo">
+    <a href="{{ route('dashboard') }}" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>F</b>L</span>
     <!-- logo for regular state and mobile devices -->
@@ -63,25 +63,23 @@
                 $user = Auth::user()
             @endphp
 
-            @if ($user->role = 'ADMIN')
-                <li class="active">
-                    <a href="#"><i class="fa fa-link"></i> <span>Link</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a>
-                </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Link in level 2</a></li>
-                        <li><a href="#">Link in level 2</a></li>
-                    </ul>
-                </li>
-            @endif
+            <li class="{{ request()->routeIs('dashboard') ? 'active' : ''}}">
+                <a href="{{ route('dashboard') }}">
+                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('store.verification') ? 'active' : ''}}">
+                <a href="{{ route('store.verification') }}">
+                    <i class="fa fa-university"></i> <span> Verifikasi Toko </span>
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('order.list') ? 'active' : ''}}">
+                <a href="{{ route('order.list') }}">
+                    <i class="fa fa-list"></i> <span> Order List </span>
+                </a>
+            </li>
         </ul>
     </section>
 </aside>
