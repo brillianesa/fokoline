@@ -39,21 +39,22 @@
             <!-- ***** Section Title End ***** -->
 
             <div class="row mt-5">
-                <div class="col-md-12" id="map" style="height: 500px; width: 1500px; border-radius: 5px"></div>
+                <div class="col-md-12" id="map" style="height: 500px; width: 1500px; border-radius: 5px" class="img-thumbail"></div>
             </div>
         </div>
     </section>
 
     @push('scripts')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=initMap&libraries=places"type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=runInit&libraries=places"type="text/javascript"></script>
     <script>
 
    let map, infoWindow;
-
+   var icon = "{!! asset('icons/marker.svg') !!}";
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: -34.397, lng: 150.644 },
+            center: { lat: -6.371221577144296, lng: 106.76703995812765 },
             zoom: 17,
+            mapTypeControl: false,
         });
         infoWindow = new google.maps.InfoWindow();
 
@@ -61,6 +62,16 @@
         locationButton.textContent = "Lokasi Saat Ini";
         locationButton.classList.add("custom-map-control-button");
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+        $vendors = {!! json_encode($vendors->toArray()) !!};
+        $vendors.forEach(e => {
+            new google.maps.Marker({
+                position: new google.maps.LatLng(e.latitude, e.longitude),
+                map,
+                icon: icon,
+                title : e.name
+            });
+        });
 
         locationButton.addEventListener("click", () => {
             // Try HTML5 geolocation.
@@ -84,6 +95,11 @@
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
             }
+        });
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            // placeMarkerIputM2(this, event.latLng);
+            console.log(event.latLng.toJSON());
         });
     }
 
