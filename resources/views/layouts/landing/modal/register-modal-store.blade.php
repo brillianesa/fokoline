@@ -18,7 +18,7 @@
 </style>
 <div class="modal fade" id="regModalStore" tabindex="-1" role="dialog" aria-labelledby="regModalStoreLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content" style="margin-top:2%; border-radius: 20px; background-color: #45A1FF;">
+      <div class="modal-content" style="margin-top:8%; border-radius: 20px; background-color: #45A1FF;">
         <div class="modal-body text-light" style="background-color: #45A1FF;border-radius: 20px;">
         <h1 class="text-center mt-4"> {{ Str::upper(config('app.name', 'LARAVEL')) }} </h4>
           <h5 class="text-center mt-4"> Pendaftaran Mitra </h5>
@@ -198,7 +198,7 @@ function initAutocomplete() {
   google.maps.event.addListener(map2, 'click', function(event) {
     placeMarkerIputM2(this, event.latLng);
     latlonginput = event.latLng.toJSON();
-});
+  });
 }
 </script>
 @endpush
