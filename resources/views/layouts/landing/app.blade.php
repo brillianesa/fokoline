@@ -57,7 +57,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <a href="{{ route('admin') }}" class="login" style="margin-right: 5px"> Admin Page </a>
+                        <a href="{{ route('dashboard') }}" class="login" style="margin-right: 5px"> Admin Page </a>
                         <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                             this.closest('form').submit();" class="login">

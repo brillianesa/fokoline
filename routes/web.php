@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('homepage');
-Route::group(['middleware' => 'verified', 'prefix' => 'admin'],function () {
-    Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
+
+Route::group(['middleware' => 'verified'],function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    # store
+    Route::get('/store-verification', [App\Http\Controllers\StoreVerificationController::class, 'index'])->name('store.verification');
+    Route::get('/store-verification/{id}', [App\Http\Controllers\StoreVerificationController::class, 'approval'])->name('store.approval');
+    Route::get('/store-verification/{id}/{action}', [App\Http\Controllers\StoreVerificationController::class, 'approvalAction'])->name('store.approval.action');
+
+    # order
+    Route::get('/order-list', [App\Http\Controllers\OrderListController::class, 'index'])->name('order.list');
 });
 
-Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
 
 require __DIR__ . '/auth.php';
