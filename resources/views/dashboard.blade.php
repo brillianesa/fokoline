@@ -25,7 +25,7 @@
     </section>
 
     @push('scripts')
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTKAqOUCvrFh-iEKzfq0wHLlaso78iTgc&callback=initMap"type="text/javascript"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTKAqOUCvrFh-iEKzfq0wHLlaso78iTgc&callback=runInit&libraries=places"type="text/javascript"></script>
     <script>
 
    let map, infoWindow;
@@ -77,6 +77,12 @@
         infoWindow.open(map);
     }
 
+    </script>
+    <script>
+        function runInit() {
+                initMap();
+                initAutocomplete();
+            }
     </script>
     @endpush
 </x-app-layout>
