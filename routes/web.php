@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('homepage');
+
+
 Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
+Route::get('/store-detail/{id}', [App\Http\Controllers\StoreController::class, 'detail'])->middleware('auth')->name('store-detail');
+Route::post('/store-autocomplete', [App\Http\Controllers\StoreController::class, 'autocomplete'])->name('store-autocomplete');
 
 Route::group(['middleware' => 'verified'],function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

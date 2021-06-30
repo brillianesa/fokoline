@@ -17,6 +17,7 @@
             background: #ebebeb;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endpush
 
     <section class="section" id="frequently-question">
@@ -29,11 +30,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="section-heading">
-                        <select name="" class="form-control" id="">
-                            <option value=""> asddaksdk </option>
-                        </select>
-                    </div>
+                    <input id="search-vendor" class="form-control" type="text" placeholder="Fotokopi ..."/>
                 </div>
             </div>
             <!-- ***** Section Title End ***** -->
@@ -46,17 +43,66 @@
 
     @push('scripts')
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=runInit&libraries=places"type="text/javascript"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> --}}
+    <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
     <script>
 
    let map, infoWindow;
+   var activeInfoWindow;
    var icon = "{!! asset('icons/marker.svg') !!}";
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: -6.371221577144296, lng: 106.76703995812765 },
-            zoom: 17,
+            center: { lat: -6.373643041124395, lng: 106.784204331353 },
+            zoom: 15,
             mapTypeControl: false,
         });
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                curloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                infoWindow.setPosition(curloc);
+                infoWindow.setContent("Posisi Saat Ini");
+                infoWindow.open(map);
+                map.setCenter(curloc);
+            }, () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
         infoWindow = new google.maps.InfoWindow();
+
+        // Create the search box.
+        let vendorS = $('#search-vendor');
+        var path = "{{ route('store-autocomplete') }}";
+        vendorS.autocomplete({
+            source: (query, res) => {
+                $.ajax({
+                    url: path,
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        search: query.term
+                    },
+                    success: function( data ) {
+                        res(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                position = new google.maps.LatLng(ui.item.lat, ui.item.lng);
+                map.panTo(position);
+            }
+        });
+
+        // vendorS.change(() => {
+        //     console.log(vendorS.typeahead('val').val());
+        // });
 
         const locationButton = document.createElement("button");
         locationButton.textContent = "Lokasi Saat Ini";
@@ -65,40 +111,69 @@
 
         $vendors = {!! json_encode($vendors->toArray()) !!};
         $vendors.forEach(e => {
-            new google.maps.Marker({
-                position: new google.maps.LatLng(e.latitude, e.longitude),
+            pos = new google.maps.LatLng(e.latitude, e.longitude);
+            marks(pos, e.name, e.image, e.id);
+        });
+        function marks(location, name, image, id) {
+            var info = new google.maps.InfoWindow();
+            var marker = new google.maps.Marker({
+                position: location,
                 map,
                 icon: icon,
-                title : e.name
+                title : name
             });
-        });
 
-        locationButton.addEventListener("click", () => {
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                const pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                };
-                infoWindow.setPosition(pos);
-                infoWindow.setContent("Posisi Saat Ini");
-                infoWindow.open(map);
-                map.setCenter(pos);
-                },
-                () => {
-                handleLocationError(true, infoWindow, map.getCenter());
-                }
-            );
-            } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-            }
-        });
+            marker.addListener("click", () => {
+                //Info Distance
+                var distance = String(CalcDist(curloc, location).toFixed(2))+" KM";
+                //URL image
+                var storeImage = "{!! asset('storeimages/"+image+"') !!}";
+                var urlStore = "{{ route('store-detail', ":id") }}";
+                urlStore = urlStore.replace(':id', id);
+                console.log(id);
+
+                //Content Info window for marker
+                var contentString =
+                '<div id="content">' +
+                '<div id="siteNotice">' +
+                "</div>" +
+                '<h1 id="firstHeading" class="firstHeading">'+name+'</h1>' +
+                '<div id="bodyContent">' +
+                "<p><b>"+name+"</b>, Berjarak sekitar <b>"+distance+"</b> dari posisi kamu sekarang.</p>" +
+                ''+
+                '<img style="height: 100px; width: 200px;" src="'+storeImage+'" alt="'+image+'">' +
+                "<p class='mb-2 mt-2'>Kunjungi toko, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Kunjungi</a></p>" +
+                "</div>" +
+                "</div>";
+
+
+                info.setPosition(location);
+                info.setContent(contentString);
+                if(activeInfoWindow != null) activeInfoWindow.close();
+                info.open({
+                    anchor: marker,
+                    map
+                });
+                map.setZoom(15);
+                map.panTo(marker.getPosition());
+                activeInfoWindow = info;
+            });
+        }
+
+
+        //Distance
+        function CalcDist(mk1, mk2) {
+            R = 6371.0710; // Radius of the Earth in Kilos
+            rlat1 = mk1.lat() * (Math.PI/180); // Convert degrees to radians
+            rlat2 = mk2.lat() * (Math.PI/180); // Convert degrees to radians
+            difflat = rlat2-rlat1; // Radian difference (latitudes)
+            difflon = (mk2.lng()-mk1.lng()) * (Math.PI/180); // Radian difference (longitudes)
+
+            d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+            return d;
+        }
 
         google.maps.event.addListener(map, 'click', function(event) {
-            // placeMarkerIputM2(this, event.latLng);
             console.log(event.latLng.toJSON());
         });
     }

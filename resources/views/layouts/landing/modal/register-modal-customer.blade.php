@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="regModalCustomer" tabindex="-1" role="dialog" aria-labelledby="regModalCustomerLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="margin-top:20%; border-radius: 20px; background-color: #45A1FF;">
+      <div class="modal-content" style="margin-top:40%; border-radius: 20px; background-color: #45A1FF;">
         <div class="modal-body text-light" style="background-color: #45A1FF;border-radius: 20px;">
         <h1 class="text-center mt-4"> {{ Str::upper(config('app.name', 'LARAVEL')) }} </h4>
           <h5 class="text-center mt-4"> Pendaftaran </h5>
