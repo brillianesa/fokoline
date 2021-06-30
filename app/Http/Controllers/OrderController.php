@@ -9,7 +9,7 @@ use App\Models\{
     Order, Store
 };
 
-class OrderListController extends Controller
+class OrderController extends Controller
 {
     public function index(Request $request)
     {
@@ -30,5 +30,17 @@ class OrderListController extends Controller
         }
 
         return view('admin.order.order-list');
+    }
+
+    public function createForm($storeId)
+    {
+        $store = Store::findOrFail($storeId);
+
+        return view('admin.order.order-create', compact('store'));
+    }
+
+    public function createAction(Request $request)
+    {
+        dd($request);
     }
 }
