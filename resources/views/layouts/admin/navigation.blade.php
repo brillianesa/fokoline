@@ -86,6 +86,14 @@
                 </a>
             </li>
 
+            <li class="header">Pengaturan</li>
+
+            <li class="{{ request()->routeIs('user.setting') ? 'active' : ''}}">
+                <a href="{{ route('user.setting') }}">
+                    <i class="fa fa-gear"></i> <span> Pengaturan User </span>
+                </a>
+            </li>
+
             <li class="header"><hr style="margin-top:0px !important; margin-bottom:0px !important"></li>
 
             <li class="{{ request()->routeIs('homepage') ? 'active' : ''}}">

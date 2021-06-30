@@ -9,7 +9,7 @@
 }
 
 .modal{
-    z-index: 20;   
+    z-index: 20;
 }
 
 .modal-backdrop{
@@ -23,10 +23,10 @@
         <h1 class="text-center mt-4"> {{ Str::upper(config('app.name', 'LARAVEL')) }} </h4>
           <h5 class="text-center mt-4"> Pendaftaran Mitra </h5>
           <br>
-  
+
           <!-- Session Status -->
           <x-auth-session-status class="mb-4" :status="session('status')" />
-  
+
           <!-- Validation Errors -->
           <x-auth-validation-errors class="mb-4" :errors="$errors" />
           <form id="registerStoreStep2" class="ml-4 mr-4 mt-8" method="POST" action="{{ route('register-store') }}" enctype="multipart/form-data">
@@ -36,7 +36,7 @@
                 <div class="form-group"> <!-- Nama Vendor -->
                   <input type="text" placeholder="Nama Vendor" class="form-control" name="storename" value="{{ old('storename') }}" required>
                   </div>
-  
+
                 <div class="form-group"> <!-- Bank Acc -->
                     <input type="text" placeholder="Bank Acc" class="form-control" name="bankacc" value="{{ old('bankacc') }}" required>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="form-group"> <!-- No Rekening -->
                   <input type="text" placeholder="No. Rek" class="form-control" name="accnum" value="{{ old('accnum') }}" required>
                 </div>
-  
+
                 <div class="form-group"> <!-- Alamat Vendor -->
                   <input type="text" placeholder="Alamat Vendor" class="form-control" name="storeaddr" value="{{ old('storeaddr') }}" required>
                 </div>
@@ -59,7 +59,7 @@
                   </div>
                   <img id="preview" class="img-thumbnail" style="width: 450px; height: 300px">
                 </div>
-                
+
               </div>
               <div class="col-md-1"></div>
               <div class="col-md-6 text-dark">
@@ -74,7 +74,7 @@
             <div class="text-right">
               <button type="submit" onclick="nextStep(this)" class="btn btn-light mt-4" style="border-radius: 40px; padding-right: 65px; position: relative;">Lanjut <span id="spanLoad" class="fa fa-arrow-right" style="position: absolute; right: 10%; top: 31%;" aria-hidden="true"></span></button>
           </div>
-          </form>   
+          </form>
         </div>
       </div>
     </div>
@@ -182,7 +182,7 @@ function initAutocomplete() {
     map2.fitBounds(bounds);
   });
 
-  
+
  //Marker
  var marker2 = new google.maps.Marker({
       position: new google.maps.LatLng(-6.372834730710882, 106.77591157286359),
