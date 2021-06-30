@@ -126,8 +126,8 @@
         }).data("ui-autocomplete")._renderItem = function( ul, item ) {
 			return $( "<li class='list-group-item list-group-item-action'></li>" )
 				.data( "item.autocomplete", item )
-				.append(item.label + item.lat)
-				.appendTo( ul );
+				.append(item.label+', '+item.addr)
+				.appendTo(ul);
 		};
 
         const locationButton = document.createElement("button");
