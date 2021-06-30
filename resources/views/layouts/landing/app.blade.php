@@ -42,23 +42,22 @@
         </main>
 
         @guest
-            <div class="shadow-sm" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
+            <div class="" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
                 <div class="" style="position: relative">
-                    <button class="login" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" onclick="$('#regModalCustomer').modal('hide')"> Login </button>
-                    <button class="login" data-dismiss="modal" data-toggle="modal" data-target="#regModalCustomer" onclick="$('#loginModal').modal('hide')"> Daftar Akun </button>
+                    <button class="login shadow-sm" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" onclick="$('#regModalCustomer').modal('hide')"> Login </button>
+                    <button class="login shadow-sm" data-dismiss="modal" data-toggle="modal" data-target="#regModalCustomer" onclick="$('#loginModal').modal('hide')"> Daftar Akun </button>
                 </div>
             </div>
         @else
-            <div class="shadow-sm" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
+            <div class="" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
                 <div class="row" style="position: relative">
-                    <button class="login" data-toggle="modal" data-dismiss="modal" data-target="#regModalStore"> Daftar Mitra </button>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-
-                        <a href="{{ route('dashboard') }}" class="login" style="margin-right: 5px"> Admin Page </a>
+                        <button class="login shadow-sm" data-toggle="modal" data-dismiss="modal" data-target="#regModalStore"> Daftar Mitra </button>
+                        <a href="{{ route('dashboard') }}" class="login shadow-sm" style="margin-right: 5px"> Admin Page </a>
                         <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
-                                            this.closest('form').submit();" class="login">
+                                            this.closest('form').submit();" class="login shadow-sm">
                             {{ __('Log Out') }}
                         </x-dropdown-link>
                     </form>

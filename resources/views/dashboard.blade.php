@@ -126,8 +126,8 @@
         }).data("ui-autocomplete")._renderItem = function( ul, item ) {
 			return $( "<li class='list-group-item list-group-item-action'></li>" )
 				.data( "item.autocomplete", item )
-				.append(item.label + item.lat)
-				.appendTo( ul );
+				.append(item.label+', '+item.addr)
+				.appendTo(ul);
 		};
 
         const locationButton = document.createElement("button");
@@ -156,7 +156,7 @@
                 var distance = String(CalcDist(curloc, location).toFixed(2))+" KM";
                 //URL image
                 var storeImage = "{!! asset('storeimages/"+image+"') !!}";
-                var urlStore = "{{ route('store-detail', ":id") }}";
+                var urlStore = "{{ route('order.create', ":id") }}";
                 urlStore = urlStore.replace(':id', id);
 
                 //Content Info window for marker
@@ -169,7 +169,7 @@
                 "<p><b>"+name+"</b>, Berjarak sekitar <b>"+distance+"</b> dari posisi kamu sekarang.</p>" +
                 ''+
                 '<img style="height: 100px; width: 200px;" src="'+storeImage+'" alt="'+image+'">' +
-                "<p class='mb-2 mt-2'>Kunjungi toko, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Kunjungi</a></p>" +
+                "<p class='mb-2 mt-2'>Buat pesanan, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Order Sekarang</a></p>" +
                 "</div>" +
                 "</div>";
 
