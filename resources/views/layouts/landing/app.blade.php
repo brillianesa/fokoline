@@ -44,10 +44,8 @@
         @guest
             <div class="shadow-sm" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
                 <div class="" style="position: relative">
-                    <button type="button" class="login" data-toggle="modal" data-target="#loginModal">
-                        Login
-                    </button>
-                    <button class="login" data-toggle="modal" data-dismiss="modal" data-target="#regModalCustomer"> Daftar Akun </button>
+                    <button class="login" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" onclick="$('#regModalCustomer').modal('hide')"> Login </button>
+                    <button class="login" data-dismiss="modal" data-toggle="modal" data-target="#regModalCustomer" onclick="$('#loginModal').modal('hide')"> Daftar Akun </button>
                 </div>
             </div>
         @else
