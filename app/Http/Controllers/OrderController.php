@@ -32,8 +32,15 @@ class OrderController extends Controller
         return view('admin.order.order-list');
     }
 
-    public function create($storeId)
+    public function createForm($storeId)
     {
-        return view('admin.order.order-create');
+        $store = Store::findOrFail($storeId);
+
+        return view('admin.order.order-create', compact('store'));
+    }
+
+    public function createAction(Request $request)
+    {
+        dd($request);
     }
 }
