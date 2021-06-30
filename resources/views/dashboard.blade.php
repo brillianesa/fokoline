@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <input id="pac-input" class="form-control" type="text" placeholder="Fotokopi ..."/>
+                    <input id="search-vendor" class="form-control" type="text" placeholder="Fotokopi ..."/>
                 </div>
             </div>
             <!-- ***** Section Title End ***** -->
