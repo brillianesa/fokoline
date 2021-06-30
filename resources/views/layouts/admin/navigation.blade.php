@@ -60,24 +60,37 @@
             <li class="header">Menu</li>
 
             @php
-                $user = Auth::user()
+                $user = Auth::user();
+                $role = $user->role;
             @endphp
 
+            @if (in_array($role, ['admin', 'store']))
             <li class="{{ request()->routeIs('dashboard') ? 'active' : ''}}">
                 <a href="{{ route('dashboard') }}">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+            @endif
 
+            @if ($role == 'admin')
             <li class="{{ request()->routeIs('store.verification') ? 'active' : ''}}">
                 <a href="{{ route('store.verification') }}">
                     <i class="fa fa-university"></i> <span> Verifikasi Toko </span>
                 </a>
             </li>
+            @endif
 
             <li class="{{ request()->routeIs('order.list') ? 'active' : ''}}">
                 <a href="{{ route('order.list') }}">
-                    <i class="fa fa-list"></i> <span> Order List </span>
+                    <i class="fa fa-table"></i> <span> Order List </span>
+                </a>
+            </li>
+
+            <li class="header"><hr style="margin-top:0px !important; margin-bottom:0px !important"></li>
+
+            <li class="{{ request()->routeIs('homepage') ? 'active' : ''}}">
+                <a href="{{ route('homepage') }}">
+                    <i class="fa fa-home"></i> <span> Homepage </span>
                 </a>
             </li>
         </ul>

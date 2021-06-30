@@ -25,7 +25,8 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/store-verification/{id}/{action}', [App\Http\Controllers\StoreVerificationController::class, 'approvalAction'])->name('store.approval.action');
 
     # order
-    Route::get('/order-list', [App\Http\Controllers\OrderListController::class, 'index'])->name('order.list');
+    Route::get('/order-list', [App\Http\Controllers\OrderController::class, 'index'])->name('order.list');
+    Route::get('/order/{id}', [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
 });
 
 

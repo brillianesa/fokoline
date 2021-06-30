@@ -9,7 +9,7 @@ use App\Models\{
     Order, Store
 };
 
-class OrderListController extends Controller
+class OrderController extends Controller
 {
     public function index(Request $request)
     {
@@ -30,5 +30,10 @@ class OrderListController extends Controller
         }
 
         return view('admin.order.order-list');
+    }
+
+    public function create($storeId)
+    {
+        return view('admin.order.order-create');
     }
 }

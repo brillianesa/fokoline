@@ -8,6 +8,10 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        if (auth()->user()->role == 'customer') {
+            return redirect(route('order.list'));
+        }
+
         return view('admin.index');
     }
 }
