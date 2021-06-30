@@ -93,7 +93,7 @@
                                 <hr>
 
                                 <div class="form-group">
-                                    <img src="{{ asset('admin_page/img/avatar.png') }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
+                                    <img src="{{ asset('storeimages/'.$store->image) }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
                                 </div>
 
                                 <div class="col-md-12 no-padding">
@@ -101,7 +101,7 @@
                                     <p>{{ $store->address }}</p>
                                     <p> Pembayaran </p>
                                     <ul>
-                                        <li> Ovo : 078212307213781 </li>
+                                        <li> {{$store->bank}} : {{$store->rekening_number}} </li>
                                     </ul>
                                 </div>
                             </div>
