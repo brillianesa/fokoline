@@ -48,4 +48,15 @@ class StoreController extends Controller
         $store = Store::find($id);
         return json_encode($store);
     }
+
+    //Autocomplete find Store
+    public function autocomplete(Request $request)
+    {
+        $param = $request->toArray()['search'];
+        $data = Store::select(['name as label', 'latitude as lat', 'longitude as lng'])
+                ->where("name","LIKE","%{$param}%")
+                ->get();
+   
+        return response()->json($data);
+    }
 }

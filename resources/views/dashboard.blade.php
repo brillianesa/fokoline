@@ -17,6 +17,7 @@
             background: #ebebeb;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endpush
 
     <section class="section" id="frequently-question">
@@ -42,6 +43,11 @@
 
     @push('scripts')
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=runInit&libraries=places"type="text/javascript"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> --}}
+    <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
     <script>
 
    let map, infoWindow;
@@ -69,6 +75,34 @@
             handleLocationError(false, infoWindow, map.getCenter());
         }
         infoWindow = new google.maps.InfoWindow();
+
+        // Create the search box.
+        let vendorS = $('#search-vendor');
+        var path = "{{ route('store-autocomplete') }}";
+        vendorS.autocomplete({
+            source: (query, res) => {
+                $.ajax({
+                    url: path,
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        search: query.term
+                    },
+                    success: function( data ) {
+                        res(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                position = new google.maps.LatLng(ui.item.lat, ui.item.lng);
+                map.panTo(position);
+            }
+        });
+
+        // vendorS.change(() => {
+        //     console.log(vendorS.typeahead('val').val());
+        // });
 
         const locationButton = document.createElement("button");
         locationButton.textContent = "Lokasi Saat Ini";
