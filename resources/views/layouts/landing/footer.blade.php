@@ -1,12 +1,12 @@
 
 <!-- ***** Footer Start ***** -->
-<footer>
+<footer style="background-color: #007bf7">
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-12 col-sm-12">
-                <p class="copyright">Copyright &copy; 2020 Art Factory Company
+                <p class="copyright text-light">Copyright &copy; 2020 Art Factory Company
 
-            . Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+            . Design: <a rel="nofollow" style="color: black;" href="https://templatemo.com">TemplateMo</a></p>
             </div>
             <div class="col-lg-5 col-md-12 col-sm-12">
                 <ul class="social">
