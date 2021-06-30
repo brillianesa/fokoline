@@ -107,8 +107,8 @@
                 '<div id="bodyContent">' +
                 "<p><b>"+name+"</b>, Berjarak sekitar <b>"+distance+"</b> dari posisi kamu sekarang.</p>" +
                 ''+
-                '<img src="'+storeImage+'" alt="'+image+'">' +
-                "<p class='mb-2'>Kunjungi toko, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Kunjungi</a></p>" +
+                '<img style="height: 100px; width: 200px;" src="'+storeImage+'" alt="'+image+'">' +
+                "<p class='mb-2 mt-2'>Kunjungi toko, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Kunjungi</a></p>" +
                 "</div>" +
                 "</div>";
 
