@@ -2,48 +2,63 @@
     @push('stylesheet')
     <style>
         .custom-map-control-button {
-            background-color: #fff;
-            border: 0;
-            border-radius: 2px;
-            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
-            margin: 10px;
-            padding: 0 0.5em;
-            font: 400 18px Roboto, Arial, sans-serif;
-            overflow: hidden;
-            height: 40px;
+            margin-top: 10px;
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
             cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #fff;
+            background-color: #45A1FF;
+            border-color: #65b2ff;
         }
         .custom-map-control-button:hover {
-            background: #ebebeb;
+            background: #0080ff;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endpush
 
-    <section class="section" id="frequently-question">
+    <section class="section" id="frequently-question" style="background: #45A1FF;">
         <div class="container">
             <!-- ***** Section Title Start ***** -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h2>Cari Tempat Fotokopi Terdekat</h2>
+                        <h2 class="text-light">Cari Tempat Fotokopi Terdekat</h2>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <input id="search-vendor" class="form-control" type="text" placeholder="Fotokopi ..."/>
+                <div class="col-md-12 row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input id="search-vendor" class="form-control" type="text" placeholder="Fotokopi ..."/>
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                          </div>
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
-            </div>
-            <!-- ***** Section Title End ***** -->
-
-            <div class="row mt-5">
-                <div class="col-md-12" id="map" style="height: 500px; width: 1500px; border-radius: 5px" class="img-thumbail"></div>
+                <div class="col-md-12 mt-4 mr-2" id="map" style="height: 500px; width: 1500px; border-radius: 25px; border: 5px; border-color: gray; border-style: solid;" class="img-thumbail"></div>
             </div>
         </div>
     </section>
 
     @push('scripts')
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=runInit&libraries=places"type="text/javascript"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> --}}
     <script
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -52,6 +67,7 @@
 
    let map, infoWindow;
    var activeInfoWindow;
+   var markers = [];
    var icon = "{!! asset('icons/marker.svg') !!}";
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -95,14 +111,24 @@
                 });
             },
             select: function (event, ui) {
-                position = new google.maps.LatLng(ui.item.lat, ui.item.lng);
-                map.panTo(position);
-            }
-        });
+                if(activeInfoWindow != null) activeInfoWindow.close();
+                vendor = markers.find(e => e.getPosition().lat() == ui.item.lat && e.getPosition().lng() == ui.item.lng);
 
-        // vendorS.change(() => {
-        //     console.log(vendorS.typeahead('val').val());
-        // });
+                //If you want panTo animation use this
+                map.panTo(vendor.getPosition());
+                setTimeout(() => {
+                    google.maps.event.trigger(vendor,'click');
+                }, 1000);
+
+                //Without animation use this
+                // google.maps.event.trigger(vendor,'click');
+            }
+        }).data("ui-autocomplete")._renderItem = function( ul, item ) {
+			return $( "<li class='list-group-item list-group-item-action'></li>" )
+				.data( "item.autocomplete", item )
+				.append(item.label + item.lat)
+				.appendTo( ul );
+		};
 
         const locationButton = document.createElement("button");
         locationButton.textContent = "Lokasi Saat Ini";
@@ -120,8 +146,10 @@
                 position: location,
                 map,
                 icon: icon,
-                title : name
+                title : name,
+                sign: id
             });
+            markers.push(marker);
 
             marker.addListener("click", () => {
                 //Info Distance
@@ -130,7 +158,6 @@
                 var storeImage = "{!! asset('storeimages/"+image+"') !!}";
                 var urlStore = "{{ route('store-detail', ":id") }}";
                 urlStore = urlStore.replace(':id', id);
-                console.log(id);
 
                 //Content Info window for marker
                 var contentString =
@@ -159,6 +186,10 @@
                 activeInfoWindow = info;
             });
         }
+
+        locationButton.addEventListener("click", () => {
+            map.panTo(curloc);
+        });
 
 
         //Distance
