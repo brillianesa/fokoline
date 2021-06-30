@@ -41,4 +41,11 @@ class StoreController extends Controller
 
         return redirect('/admin');
     }
+
+    //Store detail
+    public function detail($id)
+    {
+        $store = Store::find($id);
+        return json_encode($store);
+    }
 }

@@ -29,11 +29,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="section-heading">
-                        <select name="" class="form-control" id="">
-                            <option value=""> asddaksdk </option>
-                        </select>
-                    </div>
+                    <input id="pac-input" class="form-control" type="text" placeholder="Fotokopi ..."/>
                 </div>
             </div>
             <!-- ***** Section Title End ***** -->
@@ -58,7 +54,6 @@
             mapTypeControl: false,
         });
         if (navigator.geolocation) {
-            // console.log(navigator.geolocation.getCurrentPosition());
             navigator.geolocation.getCurrentPosition((position) => {
                 curloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 infoWindow.setPosition(curloc);
@@ -83,9 +78,9 @@
         $vendors = {!! json_encode($vendors->toArray()) !!};
         $vendors.forEach(e => {
             pos = new google.maps.LatLng(e.latitude, e.longitude);
-            marks(pos, e.name);
+            marks(pos, e.name, e.image, e.id);
         });
-        function marks(location, name) {
+        function marks(location, name, image, id) {
             var info = new google.maps.InfoWindow();
             var marker = new google.maps.Marker({
                 position: location,
@@ -95,8 +90,31 @@
             });
 
             marker.addListener("click", () => {
+                //Info Distance
+                var distance = String(CalcDist(curloc, location).toFixed(2))+" KM";
+                //URL image
+                var storeImage = "{!! asset('storeimages/"+image+"') !!}";
+                var urlStore = "{{ route('store-detail', ":id") }}";
+                urlStore = urlStore.replace(':id', id);
+                console.log(id);
+
+                //Content Info window for marker
+                var contentString =
+                '<div id="content">' +
+                '<div id="siteNotice">' +
+                "</div>" +
+                '<h1 id="firstHeading" class="firstHeading">'+name+'</h1>' +
+                '<div id="bodyContent">' +
+                "<p><b>"+name+"</b>, Berjarak sekitar <b>"+distance+"</b> dari posisi kamu sekarang.</p>" +
+                ''+
+                '<img src="'+storeImage+'" alt="'+image+'">' +
+                "<p class='mb-2'>Kunjungi toko, <a href='"+urlStore+"' class='btn btn-info btn-sm' >Kunjungi</a></p>" +
+                "</div>" +
+                "</div>";
+
+
                 info.setPosition(location);
-                info.setContent(String(CalcDist(curloc, location).toFixed(2))+" KM");
+                info.setContent(contentString);
                 if(activeInfoWindow != null) activeInfoWindow.close();
                 info.open({
                     anchor: marker,
@@ -111,7 +129,7 @@
 
         //Distance
         function CalcDist(mk1, mk2) {
-            R = 6371.0710; // Radius of the Earth in miles
+            R = 6371.0710; // Radius of the Earth in Kilos
             rlat1 = mk1.lat() * (Math.PI/180); // Convert degrees to radians
             rlat2 = mk2.lat() * (Math.PI/180); // Convert degrees to radians
             difflat = rlat2-rlat1; // Radian difference (latitudes)
