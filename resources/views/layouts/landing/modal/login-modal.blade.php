@@ -40,3 +40,10 @@
     </div>
   </div>
 </div>
+@push('scripts')
+  <script>
+    if ("{{Request::get('mustlogin', false)}}") {
+      $('#loginModal').modal('show');
+    }
+  </script>
+@endpush
