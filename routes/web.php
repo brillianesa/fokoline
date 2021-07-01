@@ -31,6 +31,11 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/order-list', [App\Http\Controllers\OrderController::class, 'index'])->name('order.list');
     Route::get('/order/{id}', [App\Http\Controllers\OrderController::class, 'createForm'])->name('order.create');
     Route::get('/order/{id}/action', [App\Http\Controllers\OrderController::class, 'createAction'])->name('order.create.action');
+
+    # user setting
+    Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');
+    Route::post('/user/profile/update', [App\Http\Controllers\UserController::class, 'userUpdate'])->name('user.update.profile');
+    Route::post('/user/store/update', [App\Http\Controllers\UserController::class, 'storeUpdate'])->name('user.update.store');
 });
 
 

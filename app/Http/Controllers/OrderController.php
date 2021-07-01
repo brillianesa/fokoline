@@ -14,11 +14,11 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $role = $user->role;
         $store = Store::getListStore($user);
 
-
         if ($request->ajax()) {
-            $data = Order::with('user', 'store')->whereIn('store_id', $store);
+            $data = Order::getDataByRole();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

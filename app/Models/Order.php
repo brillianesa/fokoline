@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Store;
+
 class Order extends Model
 {
     use HasFactory;
@@ -24,5 +26,22 @@ class Order extends Model
     public function store()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public static function getDataByRole()
+    {
+        $user = auth()->user();
+        $role = $user->role;
+        $store = Store::getListStore($user);
+
+        $order = Order::with('customer', 'store');
+
+        if ($role == 'customer') {
+            $order->where('customer_id', $user->id);
+        } else if ($role == 'store') {
+            $order->whereIn('store_id', $store);
+        }
+
+        return $order;
     }
 }

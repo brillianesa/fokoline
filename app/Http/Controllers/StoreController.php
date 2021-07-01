@@ -24,7 +24,7 @@ class StoreController extends Controller
         $file = $request->file('img');
         $imageName = time().'.'.$file->extension();
         $file->move(public_path('storeimages'), $imageName);
-       
+
         //store image to DB here..
         $data = [
             'user_id' => Auth::user()->id,
@@ -39,7 +39,7 @@ class StoreController extends Controller
         // dd();
         $store = Store::create($data);
 
-        return redirect('/admin');
+        return redirect(route('homepage'));
     }
 
     //Store detail
@@ -56,7 +56,7 @@ class StoreController extends Controller
         $data = Store::select(['name as label', 'latitude as lat', 'longitude as lng', 'address as addr'])
                 ->where("name","LIKE","%{$param}%")
                 ->get();
-   
+
         return response()->json($data);
     }
 }

@@ -93,7 +93,7 @@
                                 <hr>
 
                                 <div class="form-group">
-                                    <img src="{{ asset('storeimages/'.$store->image) }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
+                                    <img src="{{ asset('storeimages/' . $store->image) }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
                                 </div>
 
                                 <div class="col-md-12 no-padding">

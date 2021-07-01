@@ -3,7 +3,7 @@
     @push('stylesheet')
     <style>
         .google-maps-link {
-            display: none;
+            display: none !important;
         }
         .float-right {
             float: right;
@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="form-group col-md-12">
-                                <img src="{{ asset('admin_page/img/avatar.png') }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
+                                <img src="{{ asset('storeimages/' . $store->image) }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for=""> Nama Vendor </label>
@@ -67,17 +67,8 @@
                                     scrolling="no"
                                     marginheight="0"
                                     marginwidth="0"
-                                    src="https://maps.google.com/maps?q={{ $store->latitude }},{{ $store->longitude }}&hl=es&z=14&amp;output=embed">
+                                    src="https://maps.google.com/maps?q={{ $store->latitude }},{{ $store->longitude }}&hl=id&z=14&amp;output=embed">
                                 </iframe>
-                                <br/>
-                                <small>
-                                <a
-                                    href="https://maps.google.com/maps?q={{ $store->latitude }},{{ $store->longitude }}&hl=es;z=14&amp;output=embed"
-                                    style="color:#0000FF;text-align:left"
-                                    target="_blank">
-                                    Lihat Lebih Detail
-                                </a>
-                                </small>
                             </div>
 
                             <div class="form-group col-md-12">
