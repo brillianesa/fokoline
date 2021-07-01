@@ -18,6 +18,9 @@
 
     <section class="content container-fluid">
         <div class="row">
+
+            <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header">
@@ -26,8 +29,6 @@
                     <div class="box-body">
                         <form action="{{ route('user.update.profile') }}" method="post">
                             @csrf
-
-                            <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
                             <div class="form-group">
                                 <label for=""> Nama </label>
@@ -65,8 +66,6 @@
                     </div>
                     <div class="box-body">
                         <form action="{{ route('user.update.store') }}" method="post" enctype="multipart/form-data">
-                            <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
                             @csrf
 
                             <input type="hidden" name="store_id" value="{{ $store->id }}">

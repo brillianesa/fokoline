@@ -94,6 +94,14 @@
                 </a>
             </li>
 
+            @if ($role == 'store')
+            <li class="{{ request()->routeIs('price.index') ? 'active' : ''}}">
+                <a href="{{ route('price.index') }}">
+                    <i class="fa fa-gear"></i> <span> Pengaturan Vendor </span>
+                </a>
+            </li>
+            @endif
+
             <li class="header"><hr style="margin-top:0px !important; margin-bottom:0px !important"></li>
 
             <li class="{{ request()->routeIs('homepage') ? 'active' : ''}}">

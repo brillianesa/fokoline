@@ -36,6 +36,9 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');
     Route::post('/user/profile/update', [App\Http\Controllers\UserController::class, 'userUpdate'])->name('user.update.profile');
     Route::post('/user/store/update', [App\Http\Controllers\UserController::class, 'storeUpdate'])->name('user.update.store');
+
+    # store price setting
+    Route::resource('store/price', App\Http\Controllers\StorePriceController::class);
 });
 
 
