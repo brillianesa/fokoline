@@ -50,6 +50,12 @@
 
 
     <script>
+        function download(params) {
+                console.log(params);
+                $.get(url, function( data ) {
+                    return;
+                });
+            }
         $(document).ready(function() {
             var table = $('#data-table').DataTable({
                 processing: true,
@@ -58,7 +64,13 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'id'},
                     {data: 'customer.name', name: 'customer.name'},
-                    {data: 'file', name: 'file'},
+                    {data: 'file', name: 'file',
+                        render: (data, type, row) => {
+                            var url = "{{route('order.get.file', ':path' )}}";
+                            url = url.replace(':path', data);
+                            return '<a href="'+url+'" class="btn btn-success"> Download </a>';
+                        }
+                    },
                     {data: 'print_type', name: 'print_type'},
                     {data: 'total_page', name: 'total_page'},
                     {data: 'total_copy', name: 'total_copy'},

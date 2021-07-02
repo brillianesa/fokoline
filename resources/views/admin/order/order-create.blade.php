@@ -25,7 +25,10 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="" enctype="multipart/form-data">
+                        <!-- Validation Errors -->
+                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.create.action',$store->id)}}" enctype="multipart/form-data">
+                            @csrf
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">File</label>
@@ -73,10 +76,17 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Jilid</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-check-input position-static" type="checkbox" value="true" id="jilid" name="jilid">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Deskripsi</label>
 
                                     <div class="col-sm-10">
-                                        <textarea class="form-control" rows="5"></textarea>
+                                        <textarea class="form-control" rows="5" name="description"></textarea>
                                     </div>
                                 </div>
 

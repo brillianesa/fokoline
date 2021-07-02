@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,8 @@ Route::group(['middleware' => 'verified'],function () {
     # order
     Route::get('/order-list', [App\Http\Controllers\OrderController::class, 'index'])->name('order.list');
     Route::get('/order/{id}', [App\Http\Controllers\OrderController::class, 'createForm'])->name('order.create');
-    Route::get('/order/{id}/action', [App\Http\Controllers\OrderController::class, 'createAction'])->name('order.create.action');
+    Route::post('/order/{id}/action', [App\Http\Controllers\OrderController::class, 'createAction'])->name('order.create.action');
+    Route::get('/order/file/{fileaccess}', [App\Http\Controllers\OrderController::class, 'downloadFile'])->name('order.get.file');
 
     # user setting
     Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');

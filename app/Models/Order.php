@@ -18,6 +18,8 @@ class Order extends Model
     const PESANAN_DAPAT_DIAMBIL = 'PESAN DAPAT DIAMBIL';
     const PESANAN_SELESAI = 'PESAN SELESAI';
 
+    protected $fillable = ['customer_id', 'store_id', 'file', 'print_type', 'total_page', 'total_copy', 'paper_type', 'description', 'jilid', 'status'];
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id', 'id');
@@ -25,7 +27,7 @@ class Order extends Model
 
     public function store()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Store::class,'store_id', 'id');
     }
 
     public static function getDataByRole()
