@@ -39,7 +39,7 @@
                                     <label class="col-sm-2 control-label">Jenis Print</label>
 
                                     <div class="col-sm-10">
-                                        <select class="form-control select2" name="print_type" data-placeholder="Pilih Jenis Print">
+                                        <select class="form-control select2" name="print_type" id="print_type" data-placeholder="Pilih Jenis Print">
                                             <option value=""></option>
                                         </select>
                                     </div>
@@ -50,7 +50,7 @@
                                     <label class="col-sm-2 control-label">Jumlah Halaman</label>
 
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" name="total_page">
+                                        <input type="number" class="form-control" name="total_page" id="total_page">
                                     </div>
                                 </div>
 
@@ -58,7 +58,7 @@
                                     <label class="col-sm-2 control-label">Banyak Copy</label>
 
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" name="total_copy">
+                                        <input type="number" class="form-control" name="total_copy" id="total_copy">
                                     </div>
                                 </div>
 
@@ -66,7 +66,7 @@
                                     <label class="col-sm-2 control-label">Jenis Kertas</label>
 
                                     <div class="col-sm-10">
-                                        <select class="form-control select2" name="paper_type" data-placeholder="Pilih Jenis Kertas">
+                                        <select class="form-control select2" name="paper_type" id="paper_type" data-placeholder="Pilih Jenis Kertas">
                                             <option value=""></option>
                                         </select>
                                     </div>
@@ -82,6 +82,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-12">
+                                        <p><h4>Total yang harus dibayar : </h4> <h3 id="total_prices">Rp. 0</h3> </p>
                                         <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px;"> Order </button>
                                         <button type="submit" class="btn btn-danger pull-right"> Cancel </button>
                                     </div>
@@ -116,8 +117,71 @@
         <script src="{{ asset('admin_page/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
         <script>
             $(document).ready(function() {
-                $('.select2').select2({width: '100%'});
+                let prices = @json($store->prices()->get());
+                let select1 = $('#print_type');
+                let select2 = $('#paper_type');
+                let totalPrice ;
+                let pricePrintType;
+                let pricePaperType;
+
+                var dataPrintType = prices.map((v) => {
+                    if (v.type == 'print_type') {
+                        return {
+                            id: v.id,
+                            text: v.name,
+                            price: v.price
+                        }
+                    }
+                });
+                var dataPapers = prices.map((v) => {
+                    if (v.type == 'paper') {
+                        return {
+                            id: v.id,
+                            text: v.name,
+                            price: v.price
+                        }
+                    }
+                });
+
+                select1.select2({
+                    width: '100%',
+                    data : dataPrintType,
+                }).on('select2:select', (e) => {
+                    pricePrintType = e.params.data.price;
+                    console.log(pricePrintType);
+                    count(pricePrintType, pricePaperType);
+                    console.log('harga', totalPrice);
+                });
+                
+                select2.select2({
+                    width: '100%',
+                    data : dataPapers
+                }).on('select2:select', (e) => {
+                    pricePaperType = e.params.data.price;
+                    console.log(pricePaperType);
+                    count(pricePrintType, pricePaperType);
+                    console.log('harga', totalPrice);
+                });
+                var elementTotalPrice = $('#total_prices');
+
+                function count(b1, b2) {
+                    basePrice = (b1 && b2) ? b1+b2 : 0;
+                    totalPrice = (basePrice * $('#total_page').val()) * $('#total_copy').val();
+                    elementTotalPrice.html(convertToRupiah(totalPrice));
+                }
+
+                $('input').on('change', ()=>{
+                    count(pricePrintType, pricePaperType);
+                })
             })
+
+            function convertToRupiah(angka)
+            {
+                var rupiah = '';		
+                var angkarev = angka.toString().split('').reverse().join('');
+                for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+                return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+            }
         </script>
     @endpush
 </x-app-layout>

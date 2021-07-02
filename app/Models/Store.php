@@ -19,4 +19,9 @@ class Store extends Model
     {
         return Store::select('id')->where('user_id', $user->id)->get();
     }
+
+    public function prices()
+    {
+        return $this->hasMany(StorePrice::class);
+    }
 }
