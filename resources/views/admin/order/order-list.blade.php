@@ -28,8 +28,9 @@
                                     <th> Jenis Kertas </th>
                                     <th> Jilid </th>
                                     <th> Deskripsi </th>
+                                    <th> Total Harga </th>
                                     <th> Status </th>
-                                    <th width="50"> Action </th>
+                                    <th width="200"> Action </th>
                                 </thead>
                                 <tbody>
 
@@ -68,7 +69,7 @@
                         render: (data, type, row) => {
                             var url = "{{route('order.get.file', ':path' )}}";
                             url = url.replace(':path', data);
-                            return '<a href="'+url+'" class="btn btn-success"> Download </a>';
+                            return '<a href="'+url+'" class="btn btn-success btn-xs"> Download </a>';
                         }
                     },
                     {data: 'print_type', name: 'print_type'},
@@ -77,6 +78,7 @@
                     {data: 'paper_type', name: 'paper_type'},
                     {data: 'jilid', name: 'jilid'},
                     {data: 'description', name: 'description'},
+                    {data: 'total_price', name: 'total_price'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]

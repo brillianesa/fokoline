@@ -18,14 +18,15 @@ class CreateOrdersTable extends Migration
             $table->foreignId('customer_id')->constrained('users');
             $table->foreignId('store_id')->constrained('stores');
             $table->text('file');
-            $table->text('print_type');
+            $table->foreignId('print_type')->constrained('store_prices');
+            $table->foreignId('paper_type')->constrained('store_prices');
             $table->boolean('jilid');
+            $table->text('description');
+            $table->enum('status', ["MENUNGGU PEMBAYARAN", "PESANAN DIPROSES", "PESANAN DAPAT DIAMBIL", "PESANAN SELESAI"]);
             $table->integer('total_page');
             $table->integer('total_copy');
-            $table->text('paper_type');
-            $table->text('description');
-            $table->enum('status', ["MENUNGGU PEMBAYARAN","PESANAN DIPROSES", "PESANAN DAPAT DIAMBIL", "PESANAN SELESAI"]);
-            $table->text('payment')->nullable();
+            $table->integer('total_price');
+            $table->text('payment_file')->nullable();
             $table->timestamps();
         });
     }

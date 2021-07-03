@@ -92,6 +92,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-12">
+                                        <input type="hidden" name="total_price" id="total_price_value">
                                         <p><h4>Total yang harus dibayar : </h4> <h3 id="total_prices">Rp. 0</h3> </p>
                                         <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px;"> Order </button>
                                         <button type="submit" class="btn btn-danger pull-right"> Cancel </button>
@@ -109,6 +110,7 @@
 
                                 <div class="col-md-12 no-padding">
                                     <h4 class="bold"> {{ $store->name }} </h4>
+
                                     <p>{{ $store->address }}</p>
                                     <p> Pembayaran </p>
                                     <ul>
@@ -162,7 +164,7 @@
                     count(pricePrintType, pricePaperType);
                     console.log('harga', totalPrice);
                 });
-                
+
                 select2.select2({
                     width: '100%',
                     data : dataPapers
@@ -172,12 +174,15 @@
                     count(pricePrintType, pricePaperType);
                     console.log('harga', totalPrice);
                 });
-                var elementTotalPrice = $('#total_prices');
+
+                var elementTotalPrice = $('#total_prices'),
+                    elementTotalPriceInput = $('#total_price_value');
 
                 function count(b1, b2) {
                     basePrice = (b1 && b2) ? b1+b2 : 0;
                     totalPrice = (basePrice * $('#total_page').val()) * $('#total_copy').val();
                     elementTotalPrice.html(convertToRupiah(totalPrice));
+                    elementTotalPriceInput.val(totalPrice);
                 }
 
                 $('input').on('change', ()=>{
@@ -187,7 +192,7 @@
 
             function convertToRupiah(angka)
             {
-                var rupiah = '';		
+                var rupiah = '';
                 var angkarev = angka.toString().split('').reverse().join('');
                 for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
                 return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');

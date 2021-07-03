@@ -15,16 +15,25 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $role = $user->role;
-        $store = Store::getListStore($user);
-
         if ($request->ajax()) {
             $data = Order::getDataByRole();
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('total_price', function ($row) {
+                    return 'Rp. ' . number_format($row->total_price);
+                })
                 ->addColumn('action', function ($row) {
                     $button = "";
+
+                    if ($row->status == Order::MENUNGGU_PEMBAYARAN) {
+                        $uploadPaymentRoute = route('order.payment', ['id' => $row->id]);
+                        $button = "
+                            <div class='col-md-12 text-center'>
+                                <a href='". $uploadPaymentRoute ."' class='btn btn-primary btn-xs'> Upload Bukti Pembayaran </a>
+                            </div>
+                        ";
+                    }
+
                     return $button;
                 })
                 ->rawColumns(['action'])
@@ -68,6 +77,7 @@ class OrderController extends Controller
             'description' => $request->description,
             'jilid' => $request->jilid ? true : false,
             'status' => Order::MENUNGGU_PEMBAYARAN,
+            'total_price' => $request->total_price,
         ];
         $order = Order::create($data);
         return redirect(route('order.list'));
@@ -81,5 +91,16 @@ class OrderController extends Controller
         }else{
             abort(404);
         }
+    }
+
+    public function uploadPaymentForm($id)
+    {
+        $store = Store::findOrFail($id);
+        return view('admin.order.payment-form');
+    }
+
+    public function uploadPaymentAction(Request $request)
+    {
+        dd($request);
     }
 }
