@@ -11,7 +11,6 @@ class Order extends Model
 {
     use HasFactory;
 
-    const BARU = 'BARU';
     const MENUNGGU_PEMBAYARAN = 'MENUNGGU PEMBAYARAN';
     const VERIFIKASI_PEMBAYARAN = 'VERIFIKASI PEMBAYARAN';
     const PESANAN_DIPROSES = 'PESANAN DIPROSES';

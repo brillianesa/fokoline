@@ -83,6 +83,12 @@ class OrderController extends Controller
         return redirect(route('order.list'));
     }
 
+    public function orderDetail($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('admin.order.order-detail', compact('order'));
+    }
+
     public function downloadFile($fileaccess)
     {
         $order = Order::where('file', $fileaccess)->first();
@@ -95,8 +101,8 @@ class OrderController extends Controller
 
     public function uploadPaymentForm($id)
     {
-        $store = Store::findOrFail($id);
-        return view('admin.order.payment-form');
+        $order = Order::findOrFail($id);
+        return view('admin.order.payment-form', compact('order'));
     }
 
     public function uploadPaymentAction(Request $request)
