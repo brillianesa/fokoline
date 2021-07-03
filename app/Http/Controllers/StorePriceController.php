@@ -109,8 +109,10 @@ class StorePriceController extends Controller
     {
         $price = StorePrice::findOrfail($id);
         $store = Store::where('user_id', auth()->user()->id)->first();
+        $alias = $this->getTypeAlias($price->type);
+        $type = $price->type;
 
-        return view('admin.store.setting.create-or-update', compact('price', 'store'));
+        return view('admin.store.setting.create-or-update', compact('price', 'store', 'alias', 'type'));
     }
 
     /**
