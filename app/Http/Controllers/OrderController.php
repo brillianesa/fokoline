@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 
 use App\Models\{
-    Order, Store
+    Order, Store, StorePrice
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -46,8 +46,9 @@ class OrderController extends Controller
     public function createForm($storeId)
     {
         $store = Store::findOrFail($storeId);
+        $jilidprice = StorePrice::where('type', 'jilid')->first();
 
-        return view('admin.order.order-create', compact('store'));
+        return view('admin.order.order-create', compact('store', 'jilidprice'));
     }
 
     public function createAction(Request $request, $id)

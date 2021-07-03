@@ -130,6 +130,7 @@
         <script>
             $(document).ready(function() {
                 let prices = @json($store->prices()->get());
+                let jilidPrice = @json($jilidprice->price);
                 let select1 = $('#print_type');
                 let select2 = $('#paper_type');
                 let totalPrice ;
@@ -175,12 +176,24 @@
                     console.log('harga', totalPrice);
                 });
 
+                $("#jilid").change(function() {
+                    count(pricePrintType, pricePaperType)
+                });
+
                 var elementTotalPrice = $('#total_prices'),
                     elementTotalPriceInput = $('#total_price_value');
 
                 function count(b1, b2) {
                     basePrice = (b1 && b2) ? b1+b2 : 0;
                     totalPrice = (basePrice * $('#total_page').val()) * $('#total_copy').val();
+
+                    // jilid logic
+                    if ($('#jilid').is(':checked')) {
+                        jilidTotal = jilidPrice * $('#total_copy').val();
+                        console.log('jilid' + jilidTotal);
+                        totalPrice += jilidTotal;
+                    }
+
                     elementTotalPrice.html(convertToRupiah(totalPrice));
                     elementTotalPriceInput.val(totalPrice);
                 }

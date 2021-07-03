@@ -20,15 +20,11 @@ class StorePriceController extends Controller
     {
         $storeId = Store::getListStore(auth()->user());
         if ($request->ajax()) {
-            $data = StorePrice::with('store')->whereIn('store_id', $storeId);
+            $data = StorePrice::with('store')->whereIn('store_id', $storeId)->where('type', $request->type);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('type_alias', function ($row) {
-                    if ($row->type == 'print_type') {
-                        return 'Jenis Print';
-                    } else {
-                        return 'Kertas';
-                    }
+                    return $this->getTypeAlias($row->type);
                 })
                 ->addColumn('action', function ($row) {
                     $button = "
@@ -58,10 +54,24 @@ class StorePriceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $store = Store::where('user_id', auth()->user()->id)->first();
-        return view('admin.store.setting.create-or-update', compact('store'));
+        $type = $request->query->get('type');
+        $price = null;
+
+        // validation
+        if(!in_array($type, ['paper', 'print_type', 'jilid'])) {
+            abort(404);
+        }
+
+        $alias = $this->getTypeAlias($type);
+
+        if ($type == 'jilid') {
+            $price = StorePrice::where(['type' => 'jilid'])->first();
+        }
+
+        return view('admin.store.setting.create-or-update', compact('store', 'type', 'alias', 'price'));
     }
 
     /**
@@ -73,6 +83,7 @@ class StorePriceController extends Controller
     public function store(StorePriceRequest $request)
     {
         StorePrice::create($request->validated());
+
         return redirect()->route('price.index')
             ->with('success', 'Data Added Successfully');
     }
@@ -98,8 +109,10 @@ class StorePriceController extends Controller
     {
         $price = StorePrice::findOrfail($id);
         $store = Store::where('user_id', auth()->user()->id)->first();
+        $alias = $this->getTypeAlias($price->type);
+        $type = $price->type;
 
-        return view('admin.store.setting.create-or-update', compact('price', 'store'));
+        return view('admin.store.setting.create-or-update', compact('price', 'store', 'alias', 'type'));
     }
 
     /**
@@ -127,5 +140,18 @@ class StorePriceController extends Controller
         StorePrice::destroy($id);
         return redirect()->route('price.index')
             ->with('success', 'Data Delete Successfully');
+    }
+
+    private function getTypeAlias($type)
+    {
+        if ($type == 'print_type') {
+            return 'Jenis Print';
+        } else if ($type == 'paper') {
+            return 'Kertas';
+        } else {
+            return 'Jilid';
+        }
+
+        return '';
     }
 }

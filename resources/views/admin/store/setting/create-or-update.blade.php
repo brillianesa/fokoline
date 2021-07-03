@@ -12,7 +12,7 @@
     @endpush
     <section class="content-header">
         <h1>
-            {{ $page }} Harga
+            {{ $page }} Harga {{ $alias }}
         </h1>
     </section>
 
@@ -31,6 +31,7 @@
                             @csrf
 
                             <input type="hidden" name="store_id" value="{{ $store->id }}">
+                            <input type="hidden" name="type" value="{{ $type }}">
 
                             @if ($price)
                                 <input type="hidden" name="_method" value="PUT">
@@ -46,22 +47,6 @@
                                 <input type="number" name="price" class="form-control" value="{{ $price->price ?? old('price')}}">
                             </div>
 
-                            @php
-                                $type = [
-                                    'paper' => 'Kertas',
-                                    'print_type' => 'Jenis Print'
-                                ];
-                            @endphp
-
-                            <div class="form-group">
-                                <label for=""> Jenis </label>
-                                <select name="type" class="form-control">
-                                    <option value=""></option>
-                                    @foreach ($type as $key => $value)
-                                        <option value="{{ $key }}" {{ $key == ($price->type ?? old('type')) ? 'selected' : ''}}> {{ $value }} </option>
-                                    @endforeach
-                                </select>
-                            </div>
 
                             <div class="form-group pull-right">
                                 <a href="{{ route('price.index') }}"class="btn btn-danger"> Batal </a>
