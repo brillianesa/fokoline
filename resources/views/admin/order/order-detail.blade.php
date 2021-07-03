@@ -16,7 +16,7 @@
 
     <section class="content-header">
         <h1>
-            Upload Bukti Pembayaran
+            Rincian Order
         </h1>
     </section>
 
@@ -25,23 +25,13 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
-                        <!-- Validation Errors -->
-                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.create.action',$order->id)}}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">File</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="file">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
                                 @include('admin.order.order-detail-component')
                             </div>
-                        </form>
+                            <div class="col-md-4"></div>
+                        </div>
                     </div>
                 </div>
             </div>

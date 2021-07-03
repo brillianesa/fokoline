@@ -34,7 +34,8 @@ Route::group(['middleware' => 'verified'],function () {
     Route::post('/order/{id}/action', [App\Http\Controllers\OrderController::class, 'createAction'])->name('order.create.action');
     Route::get('/order/file/{fileaccess}', [App\Http\Controllers\OrderController::class, 'downloadFile'])->name('order.get.file');
     Route::get('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentForm'])->name('order.payment');
-    Route::get('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentAction'])->name('order.payment');
+    Route::post('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentAction'])->name('order.payment');
+    Route::get('/order/{id}/detail', [App\Http\Controllers\OrderController::class, 'orderDetail'])->name('order.detail');
 
     # user setting
     Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');
