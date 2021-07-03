@@ -27,7 +27,7 @@
                     <div class="box-body">
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.create.action',$order->id)}}" enctype="multipart/form-data">
+                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.payment.action',$order->id)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="col-md-7">
                                 <div class="form-group">
@@ -35,6 +35,13 @@
 
                                     <div class="col-sm-10">
                                         <input type="file" class="form-control" name="file">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px;"> Order </button>
+                                        <a class="btn btn-danger pull-right"> Cancel </a>
                                     </div>
                                 </div>
                             </div>

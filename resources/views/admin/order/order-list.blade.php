@@ -31,6 +31,7 @@
                                     <th> Total Harga </th>
                                     <th> Status </th>
                                     <th width="200"> Action </th>
+                                    <th width="200"> Detail </th>
                                 </thead>
                                 <tbody>
 
@@ -81,6 +82,7 @@
                     {data: 'total_price', name: 'total_price'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'detail', name: 'detail', orderable: false, searchable: false},
                 ]
             });
         });

@@ -36,7 +36,16 @@ class OrderController extends Controller
 
                     return $button;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('detail', function ($row) {
+                    $button1 = "
+                            <div class='col-md-12 text-center'>
+                                <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'> Lihat detail </a>
+                            </div>
+                        ";
+
+                    return $button1;
+                })
+                ->rawColumns(['action','detail'])
                 ->make(true);
         }
 
