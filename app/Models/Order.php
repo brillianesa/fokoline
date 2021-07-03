@@ -47,8 +47,17 @@ class Order extends Model
         return $order;
     }
 
-    public static function orderPerStatus()
+    public static function orderPerStatus($storeId = null)
     {
-        return DB::table('orders')->selectRaw('status, sum(total_price) as total_price , count(1) count')->groupBy('status')->get();
+
+        $query = DB::table('orders')
+            ->selectRaw('status, sum(total_price) as total_price , count(1) count')
+            ->groupBy('status');
+
+        if ($storeId) {
+            $query->whereIn('store_id', $storeId);
+        }
+
+        return $query->get();
     }
 }
