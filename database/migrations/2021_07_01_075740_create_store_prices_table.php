@@ -18,7 +18,7 @@ class CreateStorePricesTable extends Migration
             $table->foreignId('store_id')->constrained('stores');
             $table->text('name');
             $table->integer('price');
-            $table->enum('type', ['paper', 'print_type']);
+            $table->enum('type', ['paper', 'print_type', 'jilid']);
             $table->timestamps();
         });
     }
