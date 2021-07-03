@@ -7,10 +7,35 @@
 
     <section class="content container-fluid">
         <div class="row">
+
+            <div class="col-md-6">
+                <div class="info-box bg-aqua">
+                    <span class="info-box-icon"><i class="fa fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Order</span>
+                        <span class="info-box-number">{{ $totalOrder }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="info-box bg-blue">
+                    <span class="info-box-icon"><i class="fa fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total Order Status Selesai</span>
+                        <span class="info-box-number">{{ $totalOrderDone }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </div>
+
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Dashboard 1</h3>
+                        <h3 class="box-title">Jumlah Order Per Status</h3>
                     </div>
 
                     <div class="box-body no-padding">
@@ -22,7 +47,7 @@
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Dashboard 2</h3>
+                        <h3 class="box-title">Harga Order Per Status</h3>
                     </div>
 
                     <div class="box-body no-padding">
@@ -31,17 +56,17 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
+            {{-- <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Dashboard 3</h3>
+                        <h3 class="box-title">Jumlah Order Seminggu Terakhir</h3>
                     </div>
 
                     <div class="box-body no-padding">
                         <div id="chart-3"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </section>
 
@@ -50,6 +75,33 @@
 
     <script>
         $(document).ready(function() {
+            let orderPerStatus = @json($orderPerStatus);
+
+            let orderAmountData = [],
+                orderTotalData = [];
+
+            orderPerStatus.map((value, key) => {
+                orderAmountData.push({
+                    name: value.status,
+                    y: value.count,
+                });
+
+                orderTotalData.push({
+                    name: value.status,
+                    y: value.total_price
+                })
+            });
+
+              Highcharts.setOptions({
+                global: {
+                    useUTC: false,
+                },
+                lang: {
+                    decimalPoint: ',',
+                    thousandsSep: '.'
+                }
+            });
+
             Highcharts.chart('chart-1', {
                 chart: {
                     plotBackgroundColor: null,
@@ -61,7 +113,7 @@
                     text: ''
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: 'Total: <b>{point.y:,.0f}</b>'
                 },
                 accessibility: {
                     point: {
@@ -79,20 +131,9 @@
                     }
                 },
                 series: [{
-                    name: 'Brands',
+                    name: 'Jumlah Order Per Status',
                     colorByPoint: true,
-                    data: [{
-                        name: 'Chrome',
-                        y: 61.41,
-                        sliced: true,
-                        selected: true
-                    }, {
-                        name: 'Internet Explorer',
-                        y: 11.84
-                    }, {
-                        name: 'Firefox',
-                        y: 10.85
-                    }]
+                    data: orderAmountData
                 }]
             });
 
@@ -107,7 +148,7 @@
                     text: ''
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: 'Total: <b>{point.y:,.0f}</b>'
                 },
                 accessibility: {
                     point: {
@@ -120,71 +161,14 @@
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            format: '<b>{point.name}</b>: {point.percentage:.0f} %'
                         }
                     }
                 },
                 series: [{
-                    name: 'Brands',
+                    name: 'Harga Order Per Status',
                     colorByPoint: true,
-                    data: [{
-                        name: 'Chrome',
-                        y: 61.41,
-                        sliced: true,
-                        selected: true
-                    }, {
-                        name: 'Internet Explorer',
-                        y: 11.84
-                    }, {
-                        name: 'Firefox',
-                        y: 10.85
-                    }]
-                }]
-            });
-
-            Highcharts.chart('chart-3', {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'column'
-                },
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Brands',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Chrome',
-                        y: 61.41,
-                        sliced: true,
-                        selected: true
-                    }, {
-                        name: 'Internet Explorer',
-                        y: 11.84
-                    }, {
-                        name: 'Firefox',
-                        y: 10.85
-                    }]
+                    data: orderTotalData
                 }]
             });
         });

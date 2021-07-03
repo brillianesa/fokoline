@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Store;
 
 class Order extends Model
@@ -45,5 +45,10 @@ class Order extends Model
         }
 
         return $order;
+    }
+
+    public static function orderPerStatus()
+    {
+        return DB::table('orders')->selectRaw('status, sum(total_price) as total_price , count(1) count')->groupBy('status')->get();
     }
 }
