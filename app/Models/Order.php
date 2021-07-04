@@ -29,13 +29,24 @@ class Order extends Model
         return $this->belongsTo(Store::class,'store_id', 'id');
     }
 
+    public function print_type()
+    {
+        return $this->belongsTo(StorePrice::class, 'print_type', 'id');
+    }
+
+
+    public function paper_type()
+    {
+        return $this->belongsTo(StorePrice::class, 'paper_type', 'id');
+    }
+
     public static function getDataByRole()
     {
         $user = auth()->user();
         $role = $user->role;
         $store = Store::getListStore($user);
 
-        $order = Order::with('customer', 'store');
+        $order = Order::with('customer', 'store', 'print_type', 'paper_type');
 
         if ($role == 'customer') {
             $order->where('customer_id', $user->id);

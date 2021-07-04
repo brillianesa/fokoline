@@ -31,7 +31,6 @@
                                     <th> Total Harga </th>
                                     <th> Status </th>
                                     <th width="200"> Action </th>
-                                    <th width="200"> Detail </th>
                                 </thead>
                                 <tbody>
 
@@ -73,16 +72,15 @@
                             return '<a href="'+url+'" class="btn btn-success btn-xs"> Download </a>';
                         }
                     },
-                    {data: 'print_type', name: 'print_type'},
+                    {data: 'print_type.name', name: 'print_type.name'},
                     {data: 'total_page', name: 'total_page'},
                     {data: 'total_copy', name: 'total_copy'},
-                    {data: 'paper_type', name: 'paper_type'},
+                    {data: 'paper_type.name', name: 'paper_type.name'},
                     {data: 'jilid', name: 'jilid'},
                     {data: 'description', name: 'description'},
                     {data: 'total_price', name: 'total_price'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'detail', name: 'detail', orderable: false, searchable: false},
                 ]
             });
         });

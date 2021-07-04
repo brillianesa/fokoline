@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\{
-    Order, Store, StorePrice
+    Order, Store, StorePrice, OrderHistory
 };
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -27,23 +28,28 @@ class OrderController extends Controller
 
                     if ($row->status == Order::MENUNGGU_PEMBAYARAN) {
                         $uploadPaymentRoute = route('order.payment', ['id' => $row->id]);
-                        $button = "
-                            <div class='col-md-12 text-center'>
-                                <a href='". $uploadPaymentRoute ."' class='btn btn-primary btn-xs'> Upload Bukti Pembayaran </a>
-                            </div>
-                        ";
+
+                        if ($row->customer_id == auth()->user()->id) {
+                            $button = "
+                                <div class='row text-center'>
+                                    <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                        <i class='fa fa-eye'></i> Detail
+                                    </a>
+                                    <a href='". $uploadPaymentRoute ."' class='btn btn-primary btn-xs'>
+                                        <i class='fa fa-upload'></i> Upload Bukti Pembayaran
+                                    </a>
+                                </div>
+                            ";
+                        } else {
+                            $button = "<div class='row text-center'>
+                                <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                    <i class='fa fa-eye'></i> Detail
+                                </a>
+                            </div>";
+                        }
                     }
 
                     return $button;
-                })
-                ->addColumn('detail', function ($row) {
-                    $button1 = "
-                            <div class='col-md-12 text-center'>
-                                <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'> Lihat detail </a>
-                            </div>
-                        ";
-
-                    return $button1;
                 })
                 ->rawColumns(['action','detail'])
                 ->make(true);
@@ -90,13 +96,27 @@ class OrderController extends Controller
             'total_price' => $request->total_price,
         ];
         $order = Order::create($data);
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+
         return redirect(route('order.list'));
     }
 
     public function orderDetail($id)
     {
         $order = Order::findOrFail($id);
-        return view('admin.order.order-detail', compact('order'));
+        $orderHistory = OrderHistory::where(['order_id' => $order->id])->get();
+
+        return view('admin.order.order-detail', compact('order', 'orderHistory'));
     }
 
     public function downloadFile($fileaccess)
