@@ -53,8 +53,12 @@
                 <div class="row" style="position: relative">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <a href="{{ route('dashboard') }}" class="login shadow-sm" style="margin-right: 5px"> Admin Page </a>
-                        <a href="" class="login shadow-sm" data-toggle="modal" data-dismiss="modal" data-target="#regModalStore"> Daftar Mitra </button>
+
+                        <a href="{{ route('dashboard') }}" class="login shadow-sm" style="margin-right: 5px"> {{ auth()->user()->role }} Page </a>
+
+                        @if (auth()->user()->role == 'customer')
+                            <a href="" class="login shadow-sm" data-toggle="modal" data-dismiss="modal" data-target="#regModalStore"> Daftar Mitra </button>
+                        @endif
                         <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                             this.closest('form').submit();" class="login shadow-sm">
