@@ -19,6 +19,7 @@ class StoreController extends Controller
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'lat' => 'required',
             'lng' => 'required',
+            'notelp' => 'required|numeric'
         ]);
 
         $file = $request->file('img');
@@ -35,6 +36,7 @@ class StoreController extends Controller
             'address' => $request->storeaddr,
             'latitude' => $request->lat,
             'longitude' => $request->lng,
+            'phone_number' => $request->notelp
         ];
         // dd();
         $store = Store::create($data);

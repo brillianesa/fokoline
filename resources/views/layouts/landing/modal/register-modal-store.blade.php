@@ -49,6 +49,10 @@
                   <input type="text" placeholder="Alamat Vendor" class="form-control" name="storeaddr" value="{{ old('storeaddr') }}" required>
                 </div>
 
+                <div class="form-group"> <!-- Alamat Vendor -->
+                  <input type="text" placeholder="Nomor Telepon" class="form-control" name="notelp" value="{{ old('notelp') }}" required>
+                </div>
+
                 <div> <!-- Input File -->
                   <input type="file" style="visible:hidden; position: absolute;" name="img" class="file" accept="image/*">
                   <div class="input-group">
