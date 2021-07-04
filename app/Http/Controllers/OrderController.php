@@ -40,13 +40,13 @@ class OrderController extends Controller
                                     </a>
                                 </div>
                             ";
-                        } else {
-                            $button = "<div class='row text-center'>
-                                <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
-                                    <i class='fa fa-eye'></i> Detail
-                                </a>
-                            </div>";
                         }
+                    }else {
+                        $button = "<div class='row text-center'>
+                            <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                <i class='fa fa-eye'></i> Detail
+                            </a>
+                        </div>";
                     }
 
                     return $button;
@@ -135,8 +135,32 @@ class OrderController extends Controller
         return view('admin.order.payment-form', compact('order'));
     }
 
-    public function uploadPaymentAction(Request $request)
+    public function uploadPaymentAction(Request $request, $id)
     {
-        dd($request);
+        $this->validate($request, [
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $file = $request->file('img');
+        $imageName = time().'.'.$file->extension();
+
+        $order = Order::findOrFail($id);
+        if ($file->move(public_path('prooffiles'), $imageName)) {
+            $order->payment_file = $imageName;
+            $order->status = Order::VERIFIKASI_PEMBAYARAN;
+        }
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+
+        return redirect(route('order.list'));
     }
 }

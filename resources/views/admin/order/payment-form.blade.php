@@ -34,7 +34,7 @@
                                     <label class="col-sm-2 control-label">File</label>
 
                                     <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="file">
+                                        <input type="file" class="form-control" name="img">
                                     </div>
                                 </div>
 
