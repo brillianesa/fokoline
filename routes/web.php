@@ -33,9 +33,15 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/order/{id}', [App\Http\Controllers\OrderController::class, 'createForm'])->name('order.create');
     Route::post('/order/{id}/action', [App\Http\Controllers\OrderController::class, 'createAction'])->name('order.create.action');
     Route::get('/order/file/{fileaccess}', [App\Http\Controllers\OrderController::class, 'downloadFile'])->name('order.get.file');
+    Route::get('/order/{id}/detail', [App\Http\Controllers\OrderController::class, 'orderDetail'])->name('order.detail');
+    Route::post('/order/{id}/ready', [App\Http\Controllers\OrderController::class, 'orderReady'])->name('order.ready');
+    Route::post('/order/{id}/done', [App\Http\Controllers\OrderController::class, 'orderDone'])->name('order.done');
+
+    # order payment
     Route::get('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentForm'])->name('order.payment');
     Route::post('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentAction'])->name('order.payment.action');
-    Route::get('/order/{id}/detail', [App\Http\Controllers\OrderController::class, 'orderDetail'])->name('order.detail');
+    Route::get('/order/{id}/payment/verify', [App\Http\Controllers\OrderController::class, 'paymentDetail'])->name('order.payment.detail');
+    Route::post('/order/{id}/payment/verify', [App\Http\Controllers\OrderController::class, 'paymentVerify'])->name('order.payment.verify');
 
     # user setting
     Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');

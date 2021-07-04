@@ -1,5 +1,7 @@
 <x-admin-layout>
-
+    @if(Session::has('download.in.the.next.request'))
+        <meta http-equiv="refresh" content="1;url={{ Session::get('download.in.the.next.request') }}">
+    @endif
     @push('stylesheet')
         <link rel="stylesheet" href="{{ asset('admin_page/bower_components/select2/dist/css/select2.min.css') }}">
         <style>
@@ -61,7 +63,7 @@
                                         case Order::PESANAN_DAPAT_DIAMBIL:
                                             $color = 'maroon';
                                             break;
-                                        case Order::PESANAN_DAPAT_DIAMBIL:
+                                        case Order::PESANAN_SELESAI:
                                             $color = 'green';
                                             break;
                                     }

@@ -7,6 +7,7 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 use App\Models\{
     Order, Store, StorePrice, OrderHistory
@@ -26,32 +27,126 @@ class OrderController extends Controller
                 ->addColumn('action', function ($row) {
                     $button = "";
 
-                    if ($row->status == Order::MENUNGGU_PEMBAYARAN) {
-                        $uploadPaymentRoute = route('order.payment', ['id' => $row->id]);
-
-                        if ($row->customer_id == auth()->user()->id) {
-                            $button = "
+                    switch ($row->status) {
+                        case Order::MENUNGGU_PEMBAYARAN:
+                            if ($row->customer_id == auth()->user()->id) {
+                                $uploadPaymentRoute = route('order.payment', ['id' => $row->id]);
+                                $button = "
+                                    <div class='row text-center'>
+                                        <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                            <i class='fa fa-eye'></i> Detail
+                                        </a>
+                                        <a href='". $uploadPaymentRoute ."' class='btn btn-primary btn-xs'>
+                                            <i class='fa fa-upload'></i> Upload Bukti Pembayaran
+                                        </a>
+                                    </div>
+                                ";
+                            }
+                            break;
+                        case Order::VERIFIKASI_PEMBAYARAN:
+                            if ($row->store->user_id == auth()->user()->id) {
+                                $paymentfile = route('order.payment.verify', ['id' => $row->id]);
+                                $button = "
                                 <div class='row text-center'>
                                     <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
                                         <i class='fa fa-eye'></i> Detail
                                     </a>
-                                    <a href='". $uploadPaymentRoute ."' class='btn btn-primary btn-xs'>
-                                        <i class='fa fa-upload'></i> Upload Bukti Pembayaran
+                                    <a href='". $paymentfile ."' class='btn btn-primary btn-xs'>
+                                        <i class='fa fa-upload'></i> Lihat Bukti Pembayaran
                                     </a>
                                 </div>
                             ";
-                        }
-                    }else {
-                        $button = "<div class='row text-center'>
-                            <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
-                                <i class='fa fa-eye'></i> Detail
-                            </a>
-                        </div>";
+                            }else if($row->customer_id == auth()->user()->id){
+                                $button = "
+                                <div class='row text-center'>
+                                    <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                        <i class='fa fa-eye'></i> Detail
+                                    </a>";
+                            }
+                            break;
+                        case Order::PESANAN_DIPROSES:
+                            if ($row->store->user_id == auth()->user()->id) {
+                                $orderReady = route('order.ready', ['id' => $row->id]);
+                                $button = "
+                                <div class='row text-center'>
+                                <form method='post' action='".$orderReady."'>
+                                <input type='hidden' name='_token' value='".csrf_token()."'>
+                                    <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                        <i class='fa fa-eye'></i> Detail
+                                    </a>
+                                    <button type='submit' class='btn btn-warning btn-xs'>
+                                        <i class='fa fa-check'></i> Pesanan Dapat Diambil  
+                                    </button>
+                                </form>
+                                </div>
+                            ";
+                            }else if($row->customer_id == auth()->user()->id){
+                                $button = "
+                                <div class='row text-center'>
+                                    <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                        <i class='fa fa-eye'></i> Detail
+                                    </a>";
+                            }
+                            break;
+                        case Order::PESANAN_DAPAT_DIAMBIL:
+                            if ($row->store->user_id == auth()->user()->id) {
+                                $button = "
+                                <div class='row text-center'>
+                                    <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                        <i class='fa fa-eye'></i> Detail
+                                    </a>";
+                            }else if($row->customer_id == auth()->user()->id){
+                                $orderDone = route('order.done', ['id' => $row->id]);
+                                $button = "
+                                    <div class='row text-center'>
+                                        <form method='post' action='".$orderDone."'>
+                                        <input type='hidden' name='_token' value='".csrf_token()."'>
+                                            <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                                <i class='fa fa-eye'></i> Detail
+                                            </a>
+                                            <button type='submit' class='btn btn-warning btn-xs'>
+                                                <i class='fa fa-check'></i> Pesanan Diambil
+                                            </button>
+                                        </form>
+                                    </div>
+                                ";
+                            }
+                            break;
+                        default:
+                            $button = "<div class='row text-center'>
+                                        <a href='".route('order.detail', ['id' => $row->id])."' class='btn btn-success btn-xs'>
+                                            <i class='fa fa-eye'></i> Detail
+                                        </a>
+                                    </div>";
+                            break;
                     }
 
                     return $button;
                 })
-                ->rawColumns(['action','detail'])
+                ->addColumn('status', function ($row) {
+                    $color = '';
+                    switch ($row->status) {
+                        case Order::MENUNGGU_PEMBAYARAN:
+                            $color = 'red';
+                            break;
+                        case Order::VERIFIKASI_PEMBAYARAN:
+                            $color = 'orange';
+                            break;
+                        case Order::PESANAN_DIPROSES:
+                            $color = 'blue';
+                            break;
+                        case Order::PESANAN_DAPAT_DIAMBIL:
+                            $color = 'maroon';
+                            break;
+                        case Order::PESANAN_SELESAI:
+                            $color = 'green';
+                            break;
+                    }
+                    return '<span class="badge bg-'.$color.'">
+                        '.$row->status.'
+                </span>';
+                })
+                ->rawColumns(['action','detail','status'])
                 ->make(true);
         }
 
@@ -129,10 +224,75 @@ class OrderController extends Controller
         }
     }
 
+    public function orderReady($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = Order::PESANAN_DAPAT_DIAMBIL;
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+        
+        return redirect(route('order.detail', $id));
+    }
+
+    public function orderDone($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = Order::PESANAN_SELESAI;
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+        
+        return redirect(route('order.detail', $id));
+    }
+
     public function uploadPaymentForm($id)
     {
         $order = Order::findOrFail($id);
         return view('admin.order.payment-form', compact('order'));
+    }
+
+    public function paymentDetail($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('admin.order.payment-detail', compact('order'));
+    }
+
+    public function paymentVerify($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = Order::PESANAN_DIPROSES;
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+        Session::flash('download.in.the.next.request', route('order.get.file', $order->file ));
+        
+        return redirect(route('order.detail', $id));
+        
     }
 
     public function uploadPaymentAction(Request $request, $id)

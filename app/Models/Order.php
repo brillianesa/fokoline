@@ -14,8 +14,8 @@ class Order extends Model
     const MENUNGGU_PEMBAYARAN = 'MENUNGGU PEMBAYARAN';
     const VERIFIKASI_PEMBAYARAN = 'VERIFIKASI PEMBAYARAN';
     const PESANAN_DIPROSES = 'PESANAN DIPROSES';
-    const PESANAN_DAPAT_DIAMBIL = 'PESAN DAPAT DIAMBIL';
-    const PESANAN_SELESAI = 'PESAN SELESAI';
+    const PESANAN_DAPAT_DIAMBIL = 'PESANAN DAPAT DIAMBIL';
+    const PESANAN_SELESAI = 'PESANAN SELESAI';
 
     protected $fillable = ['customer_id', 'store_id', 'file', 'print_type', 'total_page', 'total_copy', 'paper_type', 'description', 'jilid', 'status', 'total_price'];
 
