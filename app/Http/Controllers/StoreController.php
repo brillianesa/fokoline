@@ -52,9 +52,9 @@ class StoreController extends Controller
     //Autocomplete find Store
     public function autocomplete(Request $request)
     {
-        $param = $request->toArray()['search'];
+        $param = strtolower($request->toArray()['search']);
         $data = Store::select(['name as label', 'latitude as lat', 'longitude as lng', 'address as addr'])
-                ->where("name","LIKE","%{$param}%")
+                ->whereRaw('lower(name) like (?)',["%{$param}%"])
                 ->get();
 
         return response()->json($data);
