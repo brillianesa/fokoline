@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         <button type="submit" class="btn btn-primary pull-right" style="margin-left: 5px;"> Upload </button>
-                                        <a class="btn btn-danger pull-right"> Cancel </a>
+                                        <a href="{{ route('order.list') }}" class="btn btn-danger pull-right"> Batalkan </a>
                                     </div>
                                 </div>
                             </div>
