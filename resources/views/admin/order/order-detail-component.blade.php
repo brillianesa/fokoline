@@ -21,44 +21,44 @@
                     <div class="row">
                         <div class="col-md-4">ID Pesanan</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> 654654846541</div>
+                        <div class="col-md-6"> {{$order->id}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Nama Pemilik</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> Mr. Lorem</div>
+                        <div class="col-md-6"> {{$order->customer()->get()[0]->name}}</div>
                     </div>
                     {{--  Divider --}}
                     <hr style="padding-top: 50px;">
                     <div class="row">
                         <div class="col-md-4">Nama dokumen      </div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> blablabla.docx</div>
+                        <div class="col-md-6"> {{$order->file}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Banyak Copy</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> 1 x</div>
+                        <div class="col-md-6"> {{$order->total_copy}} x</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Jumlah Halaman</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> 20 Halaman</div>
+                        <div class="col-md-6"> {{$order->total_page}} Halaman</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Jenis Kertas</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> A4</div>
+                        <div class="col-md-6"> {{$order->print_type()->get()[0]->name}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Jenis Print</div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> Print</div>
+                        <div class="col-md-6"> {{$order->paper_type()->get()[0]->name}}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Deskripsi </div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6">Hitam putih 18 Halaman Berwarna 2 Halaman</div>
+                        <div class="col-md-6">{{$order->description}}</div>
                     </div>
                     <hr style="padding-top: 50px;">
                 <div class="row" style="padding-top: 70px;padding-bottom: 70px;">
@@ -71,7 +71,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#harga').html("Rp. "+Number(500000).toLocaleString('id'));
+            $('#harga').html("Rp. "+Number('{{$order->total_price}}').toLocaleString('id'));
         });
         
     </script>
