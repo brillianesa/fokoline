@@ -11,7 +11,7 @@ class MainController extends Controller
 {
     public function index()
     {
-        $vendors = Store::all();
+        $vendors = Store::where('is_verified', 1)->get();
         return view('dashboard', compact('vendors'));
     }
 }
