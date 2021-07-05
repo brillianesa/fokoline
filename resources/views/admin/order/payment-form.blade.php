@@ -25,6 +25,14 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
+
+                        <div class="col-md-12">
+                            <div class="alert alert-warning alert-dismissible">
+                                <h4><i class="icon fa fa-info-circle"></i> Perhatian!</h4>
+                                Mohon Lakukan Pembayaran 50% ( Rp. {{ number_format($order->total_price / 2) }}) dari Estimasi Harga
+                            </div>
+                        </div>
+
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
                         <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.payment.action',$order->id)}}" enctype="multipart/form-data">
