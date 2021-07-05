@@ -57,6 +57,7 @@ class StoreController extends Controller
         $param = strtolower($request->toArray()['search']);
         $data = Store::select(['name as label', 'latitude as lat', 'longitude as lng', 'address as addr'])
                 ->whereRaw('lower(name) like (?)',["%{$param}%"])
+                ->where('is_verified',1)
                 ->get();
 
         return response()->json($data);
