@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('homepage');
+Route::get('/list-mitra', [App\Http\Controllers\MainController::class, 'listMitra'])->name('list.mitra');
 
 Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
 Route::get('/store-detail/{id}', [App\Http\Controllers\StoreController::class, 'detail'])->middleware('auth')->name('store-detail');

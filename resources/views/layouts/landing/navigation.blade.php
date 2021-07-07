@@ -11,9 +11,9 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="#welcome" class="menu-item">Home</a></li>
+                        <li class="scroll-to-section"><a href="{{route('dashboard')}}" class="menu-item">Home</a></li>
                         <li class="scroll-to-section"><a href="#s" class="menu-item">About</a></li>
-                        <li class="scroll-to-section"><a href="#s" class="menu-item">List Mitra</a></li>
+                        <li class="scroll-to-section"><a href="{{route('list.mitra')}}" class="menu-item">List Mitra</a></li>
                         {{-- <li class="submenu">
                             <a href="javascript:;">Drop Down</a>
                             <ul>
