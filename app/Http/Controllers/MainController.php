@@ -14,4 +14,15 @@ class MainController extends Controller
         $vendors = Store::where('is_verified', 1)->get();
         return view('dashboard', compact('vendors'));
     }
+
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function store()
+    {
+        $vendors = Store::where('is_verified', 1)->get();
+        return view('store', compact('vendors'));
+    }
 }
