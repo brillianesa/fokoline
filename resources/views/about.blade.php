@@ -21,7 +21,7 @@
                         <h5>Fokoline</h5>
                     </div>
                     <div class="left-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus consectetur dolorem rerum modi sapiente ratione possimus, voluptates ab facilis consequuntur odit quae? Provident sit ipsa nisi doloribus nam eos et?</p>
+                        <p>Adalah penyedia layanan untuk memudahkan anda dalam melakukan fotokopi dokumen secara online</p>
                         {{-- <a href="#about2" class="main-button">Discover More</a> --}}
                     </div>
                 </div>

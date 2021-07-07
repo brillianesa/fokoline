@@ -11,9 +11,17 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section "><a href="{{ route('homepage') }}" class="menu-item">Home</a></li>
-                        <li class="scroll-to-section"><a href="{{ route('about') }}" class="menu-item">About</a></li>
-                        <li class="scroll-to-section"><a href="{{ route('store') }}" class="menu-item">List Mitra</a></li>
+                        <li class="scroll-to-section ">
+                            <a href="{{ route('homepage') }}" class="menu-item {{ request()->routeIs('homepage') ? 'active' : ''}}">Home</a>
+                            </li>
+                        <li class="scroll-to-section">
+                            <a href="{{ route('about') }}" class="menu-item {{ request()->routeIs('about') ? 'active' : ''}}">About
+                            </a>
+                        </li>
+                        <li class="scroll-to-section">
+                            <a href="{{ route('store') }}" class="menu-item {{ request()->routeIs('store') ? 'active' : ''}}">List Mitra
+                            </a>
+                        </li>
                         {{-- <li class="submenu">
                             <a href="javascript:;">Drop Down</a>
                             <ul>
