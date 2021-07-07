@@ -17,7 +17,7 @@ class StoreUpdateRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the validation rules thats apply to the request.
      *
      * @return array
      */
@@ -25,11 +25,25 @@ class StoreUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'bank' => 'required',
-            'rekening_number' => 'required',
             'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
+            'payment_list' => 'required',
         ];
+    }
+
+    /**
+     * Get the validated data from the request.
+     *
+     * @return array
+     */
+    public function validated()
+    {
+        $validated = parent::validated();
+
+        //Add here more characters to remove or use a regex
+        $validated['payment_list'] = json_encode($validated['payment_list']);
+
+        return $validated;
     }
 }
