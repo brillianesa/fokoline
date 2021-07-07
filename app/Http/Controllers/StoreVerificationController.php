@@ -9,7 +9,7 @@ use App\Models\User;
 
 class StoreVerificationController extends Controller
 {
-    public function index(Request $request)
+    public function     index(Request $request)
     {
         if ($request->ajax()) {
             $data = Store::with('user')->where('is_verified', null);

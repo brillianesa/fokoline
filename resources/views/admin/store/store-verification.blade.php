@@ -23,7 +23,6 @@
                                     <th> No </th>
                                     <th> User </th>
                                     <th> Nama Vendor </th>
-                                    <th> Bank </th>
                                     <th> Alamat </th>
                                     <th width="50"> Action </th>
                                 </thead>
@@ -53,7 +52,6 @@
                     {data: 'DT_RowIndex', name: 'id'},
                     {data: 'user.name', name: 'user.name'},
                     {data: 'name', name: 'name'},
-                    {data: 'bank', name: 'bank'},
                     {data: 'address', name: 'address'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]

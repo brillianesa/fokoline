@@ -37,14 +37,6 @@
                   <input type="text" placeholder="Nama Vendor" class="form-control" name="storename" value="{{ old('storename') }}" required>
                   </div>
 
-                <div class="form-group"> <!-- Bank Acc -->
-                    <input type="text" placeholder="Bank Acc" class="form-control" name="bankacc" value="{{ old('bankacc') }}" required>
-                </div>
-
-                <div class="form-group"> <!-- No Rekening -->
-                  <input type="text" placeholder="No. Rek" class="form-control" name="accnum" value="{{ old('accnum') }}" required>
-                </div>
-
                 <div class="form-group"> <!-- Alamat Vendor -->
                   <input type="text" placeholder="Alamat Vendor" class="form-control" name="storeaddr" value="{{ old('storeaddr') }}" required>
                 </div>
@@ -53,7 +45,7 @@
                   <input type="text" placeholder="Nomor Telepon" class="form-control" name="notelp" value="{{ old('notelp') }}" required>
                 </div>
 
-                <div> <!-- Input File -->
+                <div class="form-group"> <!-- Input File -->
                   <input type="file" style="visible:hidden; position: absolute;" name="img" class="file" accept="image/*">
                   <div class="input-group">
                     <input type="text" class="form-control" disabled placeholder="Upload File" id="file">
@@ -61,9 +53,18 @@
                       <button type="button" class="browse btn btn-primary">Browse...</button>
                     </div>
                   </div>
-                  <img id="preview" class="img-thumbnail" style="width: 450px; height: 300px">
+                  <img id="preview" class="img-thumbnail" style="width: 450px; height: 200px">
                 </div>
 
+                <div class="form-group">
+                    <label for=""> Metode Pembayaran </label>
+                    <a class="btn btn-warning float-right" style="cursor: pointer" id="payment-method"> + </a>
+
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" name="payment[]" placeholder="Contoh : BCA - 00011111">
+                        <div id="payment-list"></div>
+                    </div>
+                </div>
               </div>
               <div class="col-md-1"></div>
               <div class="col-md-6 text-dark">
@@ -76,7 +77,7 @@
               </div>
             </div>
             <div class="text-right">
-              <button type="submit" onclick="nextStep(this)" class="btn btn-light mt-4" style="border-radius: 40px; padding-right: 65px; position: relative;">Lanjut <span id="spanLoad" class="fa fa-arrow-right" style="position: absolute; right: 10%; top: 31%;" aria-hidden="true"></span></button>
+              <button type="submit" onclick="nextStep(this)" class="btn btn-light mt-4" style="border-radius: 40px; position: relative;"> Submit </button>
           </div>
           </form>
         </div>
@@ -105,23 +106,43 @@
 </script>
 
 <script>
-  //Input File
-  $(document).on("click", ".browse", function() {
-    var file = $(this).parents().find(".file");
-    file.trigger("click");
-  });
-  $('input[type="file"]').change(function(e) {
-    var fileName = e.target.files[0].name;
-    $("#file").val(fileName);
+    //Input File
+    $(document).on("click", ".browse", function() {
+        var file = $(this).parents().find(".file");
+        file.trigger("click");
+    });
 
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      // get loaded data and render thumbnail.
-      document.getElementById("preview").src = e.target.result;
-    };
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
-  });
+    let paymentNumber = 1;
+    $(document).on("click", "#payment-method", function() {
+        let paymentList = $('#payment-list');
+
+        paymentList.append(`
+            <div class="input-group" id="payment-${paymentNumber}">
+                <input type="text" class="form-control" name="payment[]" placeholder="Contoh : BCA - 00011111">
+                <a class="btn btn-danger delete-payment" data-id="${paymentNumber}" style="cursor: pointer"> - </a>
+            </div>
+        `);
+
+        paymentNumber++;
+    });
+
+    $(document).on('click', '.delete-payment', function() {
+        let id = $(this).data('id');
+        $(`#payment-${id}`).remove();
+    });
+
+    $('input[type="file"]').change(function(e) {
+        var fileName = e.target.files[0].name;
+        $("#file").val(fileName);
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
+        };
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    });
 </script>
 
 <script>
@@ -202,6 +223,9 @@ function initAutocomplete() {
   google.maps.event.addListener(map2, 'click', function(event) {
     placeMarkerIputM2(this, event.latLng);
     latlonginput = event.latLng.toJSON();
+
+    $('#lat').val(latlonginput.lat);
+    $('#lng').val(latlonginput.lng);
   });
 }
 </script>

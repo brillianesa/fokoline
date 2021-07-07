@@ -15,9 +15,14 @@ class MainController extends Controller
         return view('dashboard', compact('vendors'));
     }
 
-    public function listMitra()
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function store()
     {
         $vendors = Store::where('is_verified', 1)->get();
-        return view('list-mitra', compact('vendors'));
+        return view('store', compact('vendors'));
     }
 }

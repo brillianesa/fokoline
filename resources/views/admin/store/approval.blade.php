@@ -34,22 +34,28 @@
                                 <input type="text" value="{{ $store->user->email }}" class="form-control" readonly>
                             </div>
 
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
+                                <label for="" class="text-center"> Foto Toko </label>
                                 <img src="{{ asset('storeimages/' . $store->image) }}" class="img-responsive img-centered" style="display: block;margin: 0 auto;" height="300" width="300" alt="">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for=""> Nama Vendor </label>
-                                <input type="text" value="{{ $store->name }}" class="form-control" readonly>
-                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""> Nama Vendor </label>
+                                    <input type="text" value="{{ $store->name }}" class="form-control" readonly>
+                                </div>
 
-                            <div class="form-group col-md-6">
-                                <label for=""> Bank </label>
-                                <input type="text" value="{{ $store->name }}" class="form-control" readonly>
-                            </div>
+                                <div class="form-group">
+                                    @php
+                                        $list_pembayaran = json_decode($store->payment_list) ?? [];
+                                    @endphp
 
-                            <div class="form-group col-md-6">
-                                <label for=""> No Rekening </label>
-                                <input type="text" value="{{ $store->rekening_number }}" class="form-control" readonly>
+                                    <label for=""> List Metode Pembayaran </label>
+                                    <ul>
+                                        @foreach ($list_pembayaran as $key => $value)
+                                            <li> {{ $value }} </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
 
                             <div class="form-group col-md-12">

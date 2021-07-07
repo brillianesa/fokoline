@@ -65,6 +65,7 @@
                         <h3 class="box-title">Pengaturan Toko</h3>
                     </div>
                     <div class="box-body">
+
                         <form action="{{ route('user.update.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
 
@@ -84,14 +85,26 @@
                                 <input type="text" name="name" value="{{ $store->name }}" class="form-control">
                             </div>
 
-                            <div class="form-group col-md-6">
-                                <label for=""> Bank </label>
-                                <input type="text" name="bank" value="{{ $store->bank }}" class="form-control">
-                            </div>
+                            <div class="form-group col-md-12">
+                                <label for=""> Metode Pembayaran </label>
+                                <a class="btn btn-primary btn-xs" style="cursor: pointer" id="payment-method"> + </a>
 
-                            <div class="form-group col-md-6">
-                                <label for=""> No Rekening </label>
-                                <input type="text" name="rekening_number" value="{{ $store->rekening_number }}" class="form-control">
+                                @php
+                                    $list_pembayaran = json_decode($store->payment_list) ?? [];
+                                @endphp
+
+
+                                @foreach ($list_pembayaran as $key => $value)
+                                    <div class="row" id="payment-{{ $key }}">
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control" name="payment_list[]" value="{{ $value }}"placeholder="Contoh : BCA - 00011111">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <a class="btn btn-danger delete-payment input-group-text" data-id="{{ $key }}" style="cursor: pointer"> - </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <div id="payment-list"></div>
                             </div>
 
                             <div class="form-group col-md-12">
@@ -231,6 +244,29 @@
                 reader.readAsDataURL(this.files[0]);
             });
         })
+
+        let paymentNumber = {{ count($list_pembayaran) }};
+        $(document).on("click", "#payment-method", function() {
+            let paymentList = $('#payment-list');
+
+            paymentList.append(`
+                <div class="row" id="payment-${paymentNumber}">
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="payment_list[]" placeholder="Contoh : BCA - 00011111">
+                    </div>
+                    <div class="col-md-5">
+                        <a class="btn btn-danger delete-payment input-group-text" data-id="${paymentNumber}" style="cursor: pointer"> - </a>
+                    </div>
+                </div>
+            `);
+
+            paymentNumber++;
+        });
+
+        $(document).on('click', '.delete-payment', function() {
+            let id = $(this).data('id');
+            $(`#payment-${id}`).remove();
+        });
     </script>
     @endif
 
