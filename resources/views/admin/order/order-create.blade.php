@@ -112,9 +112,15 @@
                                     <h4 class="bold"> {{ $store->name }} </h4>
 
                                     <p>{{ $store->address }}</p>
-                                    <p> Pembayaran </p>
+                                    @php
+                                        $list_pembayaran = json_decode($store->payment_list) ?? [];
+                                    @endphp
+
+                                    <p for=""> Metode Pembayaran </p>
                                     <ul>
-                                        <li> {{$store->bank}} : {{$store->rekening_number}} </li>
+                                        @foreach ($list_pembayaran as $key => $value)
+                                            <li> {{ $value }} </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

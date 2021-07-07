@@ -13,13 +13,12 @@ class StoreController extends Controller
     {
         $this->validate($request, [
             'storename' => 'required',
-            'bankacc' => 'required',
-            'accnum' => 'required',
             'storeaddr' => 'required',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'lat' => 'required',
             'lng' => 'required',
-            'notelp' => 'required|numeric'
+            'notelp' => 'required|numeric',
+            'payment' => 'required'
         ]);
 
         $file = $request->file('img');
@@ -31,12 +30,11 @@ class StoreController extends Controller
             'user_id' => Auth::user()->id,
             'image' => $imageName,
             'name' => $request->storename,
-            'bank' => $request->bankacc,
-            'rekening_number' => $request->accnum,
             'address' => $request->storeaddr,
             'latitude' => $request->lat,
             'longitude' => $request->lng,
-            'phone_number' => $request->notelp
+            'phone_number' => $request->notelp,
+            'payment_list' => json_encode($request->payment)
         ];
         // dd();
         $store = Store::create($data);
