@@ -38,6 +38,7 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/order/{id}/detail', [App\Http\Controllers\OrderController::class, 'orderDetail'])->name('order.detail');
     Route::post('/order/{id}/ready', [App\Http\Controllers\OrderController::class, 'orderReady'])->name('order.ready');
     Route::post('/order/{id}/done', [App\Http\Controllers\OrderController::class, 'orderDone'])->name('order.done');
+    Route::post('/order/{id}/deny', [App\Http\Controllers\OrderController::class, 'orderDeny'])->name('order.cancel');
 
     # order payment
     Route::get('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentForm'])->name('order.payment');

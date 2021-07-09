@@ -14,7 +14,7 @@ class AddStatusOrderHistory extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE order_histories MODIFY COLUMN status ENUM('MENUNGGU PEMBAYARAN', 'VERIFIKASI PEMBAYARAN', 'PESANAN DIPROSES', 'PESANAN DAPAT DIAMBIL', 'PESANAN SELESAI')");
+        DB::statement("ALTER TABLE order_histories MODIFY COLUMN status ENUM('MENUNGGU PEMBAYARAN', 'VERIFIKASI PEMBAYARAN', 'PESANAN DIPROSES', 'PESANAN DAPAT DIAMBIL', 'PESANAN SELESAI', 'PESANAN DIBATALKAN')");
     }
 
     /**

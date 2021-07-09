@@ -65,13 +65,7 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'id'},
                     {data: 'customer.name', name: 'customer.name'},
-                    {data: 'file', name: 'file',
-                        render: (data, type, row) => {
-                            var url = "{{route('order.get.file', ':path' )}}";
-                            url = url.replace(':path', data);
-                            return '<a href="'+url+'" class="btn btn-success btn-xs"> Download </a>';
-                        }
-                    },
+                    {data: 'file', name: 'file'},
                     {data: 'print_type.name', name: 'print_type.name'},
                     {data: 'total_page', name: 'total_page'},
                     {data: 'total_copy', name: 'total_copy'},

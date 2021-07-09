@@ -16,6 +16,7 @@ class Order extends Model
     const PESANAN_DIPROSES = 'PESANAN DIPROSES';
     const PESANAN_DAPAT_DIAMBIL = 'PESANAN DAPAT DIAMBIL';
     const PESANAN_SELESAI = 'PESANAN SELESAI';
+    const PESANAN_DIBATALKAN = 'PESANAN DIBATALKAN';
 
     protected $fillable = ['customer_id', 'store_id', 'file', 'print_type', 'total_page', 'total_copy', 'paper_type', 'description', 'jilid', 'status', 'total_price'];
 
@@ -51,7 +52,9 @@ class Order extends Model
         if ($role == 'customer') {
             $order->where('customer_id', $user->id);
         } else if ($role == 'store') {
+            $order->where('status', '!=' , Order::PESANAN_DIBATALKAN);
             $order->whereIn('store_id', $store);
+            $order->orwhere('customer_id', $user->id);
         }
 
         return $order;
