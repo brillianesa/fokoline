@@ -21,6 +21,7 @@ Route::get('/list-mitra', [App\Http\Controllers\MainController::class, 'store'])
 Route::post('/register-store', [App\Http\Controllers\StoreController::class, 'register'])->middleware('auth')->name('register-store');
 Route::get('/store-detail/{id}', [App\Http\Controllers\StoreController::class, 'detail'])->middleware('auth')->name('store-detail');
 Route::post('/store-autocomplete', [App\Http\Controllers\StoreController::class, 'autocomplete'])->name('store-autocomplete');
+Route::post('/store-nearby', [App\Http\Controllers\StoreController::class, 'getNearbyStore'])->name('store-nearby');
 
 Route::group(['middleware' => 'verified'],function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

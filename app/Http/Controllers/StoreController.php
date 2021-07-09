@@ -60,4 +60,22 @@ class StoreController extends Controller
 
         return response()->json($data);
     }
+
+    public function getNearbyStore(Request $request)
+    {
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+
+        $data = Store::select('id', 'name', 'address', 'latitude', 'longitude')
+                ->selectRaw("111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS($latitude))
+                    * COS(RADIANS(latitude))
+                    * COS(RADIANS($longitude - longitude))
+                    + SIN(RADIANS($latitude))
+                    * SIN(RADIANS(latitude))))) AS distance")
+                ->orderBy('distance', 'asc')
+                ->limit(5)
+                ->get();
+
+        return response()->json($data);
+    }
 }

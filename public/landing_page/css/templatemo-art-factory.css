@@ -1458,7 +1458,7 @@ button.login {
   font-size: 13px;
   border-radius: 20px;
   padding: 12px 20px;
-  background-color: #00b4c6;
+  background-color: #FF616D;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 0.25px;
@@ -1471,7 +1471,7 @@ button.login {
 }
 
 button.login:hover {
-  background-color: #0088e8;
+  background-color: #FF616D;
 }
 
 
@@ -1479,7 +1479,7 @@ a.login {
   font-size: 13px;
   border-radius: 20px;
   padding: 12px 20px;
-  background-color: #00b4c6;
+  background-color: #FF616D;
   text-transform: uppercase;
   color: #fff;
   letter-spacing: 0.25px;
@@ -1492,5 +1492,5 @@ a.login {
 }
 
 a.login:hover {
-  background-color: #0088e8;
+  background-color: #FF616D;
 }

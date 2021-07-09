@@ -29,6 +29,11 @@
         .custom-map-control-button:hover {
             background: #0080ff;
         }
+
+        .store-near:hover {
+            background: #45A1FF;
+            cursor: pointer;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @endpush
@@ -52,11 +57,23 @@
                     </div>
                     <div class="col-md-2"></div>
                 </div>
-                <div class="col-md-12 mt-4 mr-2" id="map" style="height: 500px; width: 1500px; border-radius: 25px; border: 5px; border-color: gray; border-style: solid;" class="img-thumbail"></div>
+            </div>
+        </div>
+
+        <div class="map-with-table">
+            <div class="row">
+                <div class="col-md-8 mt-4" id="map" style="height: 590px; width: 1500px; border-radius: 25px; border: 3px; border-color: gray; border-style: solid;" class="img-thumbail"></div>
+                {{-- <div class="col-md-"></div> --}}
+                <div class="col-md-4 mt-4" style="">
+                    <div class="col-md-12" style="background: white; border-radius: 25px; border: 3px; border-color: gray; border-style: solid;">
+                        <h4 class="mt-2 text-center"> Fotokopi Terdekat </h4>
+                        <ul class="mt-2 mb-3" id="nearby-vendor">
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-
     @push('scripts')
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('API_KEY') }}&callback=runInit&libraries=places"type="text/javascript"></script>
     <script
@@ -65,16 +82,24 @@
   crossorigin="anonymous"></script>
     <script>
 
-   let map, infoWindow;
-   var activeInfoWindow;
-   var markers = [];
-   var icon = "{!! asset('icons/marker.svg') !!}";
+    let map, infoWindow;
+    var activeInfoWindow;
+    var markers = [];
+    var icon = "{!! asset('icons/marker.svg') !!}";
+
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: -6.373643041124395, lng: 106.784204331353 },
             zoom: 15,
             mapTypeControl: false,
         });
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 curloc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -82,10 +107,12 @@
                 infoWindow.setContent("Posisi Saat Ini");
                 infoWindow.open(map);
                 map.setCenter(curloc);
+
+                initVendorNear(position.coords.latitude, position.coords.longitude);
             }, () => {
                     handleLocationError(true, infoWindow, map.getCenter());
                 }
-            );
+            , options) ;
         } else {
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
@@ -189,8 +216,8 @@
 
         locationButton.addEventListener("click", () => {
             map.panTo(curloc);
+            initVendorNear(curloc.lat(), curloc.lng());
         });
-
 
         //Distance
         function CalcDist(mk1, mk2) {
@@ -217,6 +244,46 @@
             : "Error: Your browser doesn't support geolocation."
         );
         infoWindow.open(map);
+    }
+
+    function panTo(latitude, longitude) {
+        if(activeInfoWindow != null) activeInfoWindow.close();
+        vendor = markers.find(e => e.getPosition().lat() == latitude && e.getPosition().lng() == longitude);
+
+        //If you want panTo animation use this
+        map.panTo(vendor.getPosition());
+        setTimeout(() => {
+            google.maps.event.trigger(vendor,'click');
+        }, 1000);
+    }
+
+    function initVendorNear(latitude, longitude) {
+        $.ajax({
+            url: '{{ route('store-nearby') }}',
+            type: 'post',
+            dataType: "json",
+            data: {
+                _token: "{{ csrf_token() }}",
+                latitude: latitude,
+                longitude: longitude
+            },
+            success: function( data ) {
+                let target = $('#nearby-vendor');
+
+                target.html('');
+                data.map((value) => {
+                    target.append(`<li class="row mt-3 store-near" onclick="panTo(${value.latitude}, ${value.longitude})">
+                        <div class="col-md-2">
+                            <img src="{{ asset('landing_page/images/about-icon-02.png') }}" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <h6>${value.name}</h6>
+                            <p>${value.address}</p>
+                        </div>
+                    </li>`);
+                });
+            }
+        });
     }
 
     </script>

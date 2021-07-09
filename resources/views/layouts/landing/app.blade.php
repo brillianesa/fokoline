@@ -20,6 +20,16 @@
 
         @stack('stylesheet')
 
+        <style>
+            .map-with-table {
+                width: 100%;
+                padding-right: 100px;
+                padding-left: 100px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
+        </style>
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
@@ -42,14 +52,14 @@
         </main>
 
         @guest
-            <div class="" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
+            <div class="" style="top:20px; right:20px;position: fixed;z-index:9999999">
                 <div class="" style="position: relative">
                     <button class="login shadow-sm" data-dismiss="modal" data-toggle="modal" data-target="#loginModal" onclick="$('#regModalCustomer').modal('hide')"> Login </button>
                     <button class="login shadow-sm" data-dismiss="modal" data-toggle="modal" data-target="#regModalCustomer" onclick="$('#loginModal').modal('hide')"> Daftar Akun </button>
                 </div>
             </div>
         @else
-            <div class="" style="bottom:50px; right:20px;position: fixed;z-index:9999999">
+            <div class="" style="top:20px; right:20px;position: fixed;z-index:9999999">
                 <div class="row" style="position: relative">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -77,7 +87,7 @@
 
         <script>
             $(document).ready(function() {
-                console.log('test');
+
             });
         </script>
         @stack('scripts')
