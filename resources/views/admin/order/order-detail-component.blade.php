@@ -33,7 +33,8 @@
                     <div class="row">
                         <div class="col-md-4">Nama dokumen      </div>
                         <div class="col-md-1">:</div>
-                        <div class="col-md-6"> {{$order->file}}</div>
+                        <div class="col-md-6"> {{$order->file}} | <a href="{{route('order.get.file', $order->file )}}" class="btn btn-success btn-xs"> Download </a></div>
+                        <div class=""></div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">Banyak Copy</div>
