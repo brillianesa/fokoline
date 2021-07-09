@@ -27,7 +27,7 @@
                     <div class="box-body">
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                        <form class="row form-horizontal" style="margin-top:50px;" method="post" action="{{route('order.payment.verify',$order->id)}}" enctype="multipart/form-data">
+                        <form class="row form-horizontal" id="form-order-action" style="margin-top:50px;" method="post" action="{{route('order.payment.verify',$order->id)}}" enctype="multipart/form-data">
                             @csrf
                             <div class="col-md-7">
                                 <div class="form-group">
@@ -42,7 +42,7 @@
                                     <div class="col-sm-12">
                                         <a href="{{route('order.list')}}" class="btn btn-primary" style="margin-left: 5px;"> Kembali </a>
                                         <button type="submit" class="btn btn-success pull-right" style="margin-left: 5px;"> Proses Pesanan </button>
-                                        {{-- <a href="{{ route('order.list') }}" class="btn btn-danger pull-right"> Batalkan Pesanan </a> --}}
+                                        <button type="submit" id="reject" class="btn btn-danger pull-right"> Tolak Pesanan </a>
                                     </div>
                                 </div>
                             </div>
@@ -57,5 +57,13 @@
     </section>
 
     @push('scripts')
+        <script>
+            $(document).ready(function() {
+                var url = "{{route('order.payment.deny',$order->id)}}";
+                $('button#reject').on('click', () => {
+                    $('form#form-order-action').attr('action', url)
+                });
+            })
+        </script>
     @endpush
 </x-app-layout>

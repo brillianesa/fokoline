@@ -66,6 +66,9 @@
                                         case Order::PESANAN_SELESAI:
                                             $color = 'green';
                                             break;
+                                        case Order::PESANAN_DITOLAK:
+                                            $color = 'red';
+                                            break;
                                     }
                                 @endphp
                                 <!-- timeline time label -->

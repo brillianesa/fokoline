@@ -171,6 +171,9 @@ class OrderController extends Controller
                         case Order::PESANAN_SELESAI:
                             $color = 'green';
                             break;
+                        case Order::PESANAN_DITOLAK:
+                            $color = 'red';
+                            break;
                     }
                     return '<span class="badge bg-'.$color.'">
                         '.$row->status.'
@@ -292,10 +295,29 @@ class OrderController extends Controller
         return redirect(route('order.detail', $id));
     }
 
-    public function orderDeny($id)
+    public function orderCancel($id)
     {
         $order = Order::findOrFail($id);
         $order->status = Order::PESANAN_DIBATALKAN;
+
+        DB::transaction(function() use ($order) {
+            $order->save();
+
+            $dataHistory = [
+                'status' => $order->status,
+                'order_id' => $order->id
+            ];
+
+            OrderHistory::create($dataHistory);
+        });
+        
+        return redirect(route('order.detail', $id));
+    }
+
+    public function orderDeny($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = Order::PESANAN_DITOLAK;
 
         DB::transaction(function() use ($order) {
             $order->save();

@@ -17,6 +17,7 @@ class Order extends Model
     const PESANAN_DAPAT_DIAMBIL = 'PESANAN DAPAT DIAMBIL';
     const PESANAN_SELESAI = 'PESANAN SELESAI';
     const PESANAN_DIBATALKAN = 'PESANAN DIBATALKAN';
+    const PESANAN_DITOLAK = 'PESANAN DITOLAK';
 
     protected $fillable = ['customer_id', 'store_id', 'file', 'print_type', 'total_page', 'total_copy', 'paper_type', 'description', 'jilid', 'status', 'total_price'];
 

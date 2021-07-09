@@ -38,13 +38,14 @@ Route::group(['middleware' => 'verified'],function () {
     Route::get('/order/{id}/detail', [App\Http\Controllers\OrderController::class, 'orderDetail'])->name('order.detail');
     Route::post('/order/{id}/ready', [App\Http\Controllers\OrderController::class, 'orderReady'])->name('order.ready');
     Route::post('/order/{id}/done', [App\Http\Controllers\OrderController::class, 'orderDone'])->name('order.done');
-    Route::post('/order/{id}/deny', [App\Http\Controllers\OrderController::class, 'orderDeny'])->name('order.cancel');
+    Route::post('/order/{id}/cancel', [App\Http\Controllers\OrderController::class, 'orderCancel'])->name('order.cancel');
 
     # order payment
     Route::get('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentForm'])->name('order.payment');
     Route::post('/order/{id}/payment', [App\Http\Controllers\OrderController::class, 'uploadPaymentAction'])->name('order.payment.action');
     Route::get('/order/{id}/payment/verify', [App\Http\Controllers\OrderController::class, 'paymentDetail'])->name('order.payment.detail');
     Route::post('/order/{id}/payment/verify', [App\Http\Controllers\OrderController::class, 'paymentVerify'])->name('order.payment.verify');
+    Route::post('/order/{id}/deny', [App\Http\Controllers\OrderController::class, 'orderDeny'])->name('order.payment.deny');
 
     # user setting
     Route::get('/user/setting', [App\Http\Controllers\UserController::class, 'index'])->name('user.setting');
