@@ -66,7 +66,7 @@ class StoreController extends Controller
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
-        $data = Store::select('id', 'name', 'address', 'latitude', 'longitude')
+        $data = Store::select('id', 'name', 'address', 'latitude', 'longitude', 'image')
                 ->selectRaw("111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS($latitude))
                     * COS(RADIANS(latitude))
                     * COS(RADIANS($longitude - longitude))

@@ -30,9 +30,14 @@
             background: #0080ff;
         }
 
+        .store-near {
+            padding: 5px;
+        }
+
         .store-near:hover {
-            background: #45A1FF;
+            background: #d9dbdd;
             cursor: pointer;
+            border-radius: 10px;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -274,7 +279,7 @@
                 data.map((value) => {
                     target.append(`<li class="row mt-3 store-near" onclick="panTo(${value.latitude}, ${value.longitude})">
                         <div class="col-md-2">
-                            <img src="{{ asset('landing_page/images/about-icon-02.png') }}" alt="">
+                            <img src="{{ asset('storeimages/${value.image}') }}" height="70" width="70" style="border-radius: 50px;" alt="">
                         </div>
                         <div class="col-md-8">
                             <h6>${value.name}</h6>

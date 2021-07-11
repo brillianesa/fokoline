@@ -55,12 +55,10 @@ class UserController extends Controller
             $imageName = time().'.'.$file->extension();
             $file->move(public_path('storeimages'), $imageName);
 
-            array_push($data, [
-                'image' => $imageName
-            ]);
+            $data['image'] = $imageName;
         }
 
-        Store::where('id', $request->store_id)->update($request->validated());
+        Store::where('id', $request->store_id)->update($data);
 
         return redirect()->route('user.setting')
             ->with('success', 'Data Update Successfully');
