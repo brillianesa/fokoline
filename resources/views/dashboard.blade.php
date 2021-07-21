@@ -283,7 +283,8 @@
                         </div>
                         <div class="col-md-8">
                             <h6>${value.name}</h6>
-                            <p>${value.address}</p>
+                            <p>${value.address}</p> 
+                            <p>Berjarak ${value.distance.toFixed(2)} KM dari lokasi anda</p>
                         </div>
                     </li>`);
                 });
